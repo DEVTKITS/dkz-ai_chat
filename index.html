@@ -5,7 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🤖 Super Grok AI Chat — DkZ™ v0.04.0</title>
+    <title>🤖 OPEN AI TERMINAL — DkZ™ v0.04.0</title>
     <link rel="stylesheet" href="../../shared/dkz-theme.css">
     <link rel="manifest" href="../../shared/manifest.json">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -152,13 +152,13 @@
 <script src="../../shared/dkz-updater.js"></script>
 </head>
 
-<body data-dkz-module="ai_chat" data-dkz-appid="DKZ-WIS-004" data-dkz-version="v0.04.0" data-dkz-title="Super Grok AI Chat" data-dkz-icon="🤖" data-dkz-separable="true">
+<body data-dkz-module="ai_chat" data-dkz-appid="DKZ-WIS-004" data-dkz-version="v0.04.0" data-dkz-title="OPEN AI TERMINAL" data-dkz-icon="🤖" data-dkz-separable="true">
     <a href="../../hub/index.html" class="back-btn" style="padding:5px 11px;border:1px solid var(--border);border-radius:7px;background:rgba(255,255,255,.03);color:var(--muted);font-size:10px;text-decoration:none;position:fixed;top:10px;left:10px;z-index:200">← Hub</a>
     <div class="bg-ambient"></div>
 
     <header class="header">
         <a href="../hub/">← Hub</a>
-        <h1>🤖 Super Grok AI Chat</h1>
+        <h1>🤖 OPEN AI TERMINAL</h1>
         <span class="v">v0.04.0</span>
     </header>
 
@@ -265,7 +265,7 @@
     <div class="chat-area" id="chatArea">
         <div class="empty-state" id="emptyState">
             <span class="logo">🤖</span>
-            <p><strong>Super Grok AI Chat v0.04.0</strong><br>22 Provider · 16+ klonbare Agenten · eigene Agenten erstellen</p>
+            <p><strong>OPEN AI TERMINAL v0.04.0</strong><br>22 Provider · 16+ klonbare Agenten · eigene Agenten erstellen</p>
             <p style="font-size:.68rem;opacity:.6">
                 <strong>Heavy Mode:</strong> Alle Agenten arbeiten parallel<br>
                 <strong>Beta Mode:</strong> Live Search + Vision + Grok Build<br>
@@ -290,7 +290,7 @@
 
 <script>
 /* ═══════════════════════════════════════════════════════
- *  SUPER GROK AI CHAT v0.04.0
+ *  OPEN AI TERMINAL v0.04.0
  *  16 klonbare Agenten + Agent Creator + 22 Provider
  * ═══════════════════════════════════════════════════════ */
 
@@ -699,7 +699,7 @@ async function callProvider(text) {
             // OpenAI-kompatibel (Grok, Groq, Cerebras, DeepSeek, OpenRouter, etc.)
             const headers = { 'Content-Type': 'application/json' };
             if (key) headers['Authorization'] = 'Bearer ' + key;
-            if (sel.startsWith('openrouter')) { headers['HTTP-Referer'] = 'https://devkitz.dev'; headers['X-Title'] = 'DkZ Super Grok Chat'; }
+            if (sel.startsWith('openrouter')) { headers['HTTP-Referer'] = 'https://devkitz.dev'; headers['X-Title'] = 'DkZ OPEN AI TERMINAL'; }
 
             resp = await fetch(prov.url, {
                 method: 'POST', headers,
@@ -781,8 +781,8 @@ if (history.length > 0) {
     <script>if("serviceWorker" in navigator)navigator.serviceWorker.register("../../shared/sw.js").catch(()=>{});</script>
 
 <!-- DkZ INFO + ONBOARDING -->
-<div style="position:fixed;inset:0;background:rgba(0,0,0,.8);display:flex;align-items:center;justify-content:center;z-index:1000;opacity:0;pointer-events:none;transition:.3s" id="info-modal"><div style="background:#111114;border:1px solid #2a2a30;border-radius:16px;padding:2rem;max-width:520px"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem"><div style="font-size:1.2rem;font-weight:800">🤖 Super Grok AI Chat v0.04.0</div><button onclick="document.getElementById('info-modal').style.opacity='0';document.getElementById('info-modal').style.pointerEvents='none'" style="width:32px;height:32px;border:none;background:rgba(255,255,255,.05);border-radius:6px;color:#f6f6f7;cursor:pointer;font-size:1.2rem">&times;</button></div><p style="font-size:.84rem;color:#a0a0a0;line-height:1.8">22 Provider · 16 klonbare Agenten · Heavy Mode · Beta Mode · Agent Creator · Alle Grok 4.3 Modelle + kostenlose Tier (Groq, Cerebras, Gemini Flash, OpenRouter Free)</p></div></div>
-<div style="position:fixed;inset:0;background:rgba(0,0,0,.8);display:flex;align-items:center;justify-content:center;z-index:1001;opacity:0;pointer-events:none;transition:.3s" id="onboarding"><div style="background:#111114;border:1px solid #2a2a30;border-radius:16px;padding:2rem;max-width:420px;text-align:center"><div style="font-size:1.2rem;font-weight:800;margin-bottom:.75rem">🤖 Super Grok AI Chat</div><p style="font-size:.84rem;color:#a0a0a0;line-height:1.8;margin-bottom:1rem">22 Provider · Heavy Mode mit klonbaren Agenten · Beta Mode · Agent Creator</p><button style="width:100%;padding:.625rem;border:none;border-radius:6px;background:linear-gradient(135deg,#fa1e4e,#ec4899);color:#fff;font-weight:700;cursor:pointer;font-family:inherit" onclick="closeOnboarding()">Los geht's!</button><div style="font-size:.65rem;color:#606060;margin-top:.5rem">Wird nur 1x gezeigt</div></div></div>
+<div style="position:fixed;inset:0;background:rgba(0,0,0,.8);display:flex;align-items:center;justify-content:center;z-index:1000;opacity:0;pointer-events:none;transition:.3s" id="info-modal"><div style="background:#111114;border:1px solid #2a2a30;border-radius:16px;padding:2rem;max-width:520px"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem"><div style="font-size:1.2rem;font-weight:800">🤖 OPEN AI TERMINAL v0.04.0</div><button onclick="document.getElementById('info-modal').style.opacity='0';document.getElementById('info-modal').style.pointerEvents='none'" style="width:32px;height:32px;border:none;background:rgba(255,255,255,.05);border-radius:6px;color:#f6f6f7;cursor:pointer;font-size:1.2rem">&times;</button></div><p style="font-size:.84rem;color:#a0a0a0;line-height:1.8">22 Provider · 16 klonbare Agenten · Heavy Mode · Beta Mode · Agent Creator · Alle Grok 4.3 Modelle + kostenlose Tier (Groq, Cerebras, Gemini Flash, OpenRouter Free)</p></div></div>
+<div style="position:fixed;inset:0;background:rgba(0,0,0,.8);display:flex;align-items:center;justify-content:center;z-index:1001;opacity:0;pointer-events:none;transition:.3s" id="onboarding"><div style="background:#111114;border:1px solid #2a2a30;border-radius:16px;padding:2rem;max-width:420px;text-align:center"><div style="font-size:1.2rem;font-weight:800;margin-bottom:.75rem">🤖 OPEN AI TERMINAL</div><p style="font-size:.84rem;color:#a0a0a0;line-height:1.8;margin-bottom:1rem">22 Provider · Heavy Mode mit klonbaren Agenten · Beta Mode · Agent Creator</p><button style="width:100%;padding:.625rem;border:none;border-radius:6px;background:linear-gradient(135deg,#fa1e4e,#ec4899);color:#fff;font-weight:700;cursor:pointer;font-family:inherit" onclick="closeOnboarding()">Los geht's!</button><div style="font-size:.65rem;color:#606060;margin-top:.5rem">Wird nur 1x gezeigt</div></div></div>
 <script>function showModuleInfo(){var m=document.getElementById('info-modal');m.style.opacity='1';m.style.pointerEvents='all'}function closeOnboarding(){var m=document.getElementById('onboarding');m.style.opacity='0';m.style.pointerEvents='none';localStorage.setItem('dkz-ai_chat-ob4','1')}if(!localStorage.getItem('dkz-ai_chat-ob4')){var ob=document.getElementById('onboarding');ob.style.opacity='1';ob.style.pointerEvents='all'}setTimeout(function(){var c=document.querySelector('.header')||document.querySelector('header');if(c&&!document.getElementById('dkz-info-btn')){var b=document.createElement('button');b.id='dkz-info-btn';b.innerHTML='&#9432;';b.title='Modul-Info';b.style.cssText='padding:.4rem;border:1px solid #2a2a30;border-radius:6px;background:rgba(255,255,255,.05);color:#f6f6f7;font-size:1rem;cursor:pointer';b.onclick=function(){showModuleInfo()};c.insertBefore(b,c.firstChild)}},500);</script>
 
     <script src="../../shared/dkz-prompt-hub.js"></script>

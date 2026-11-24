@@ -1,4 +1,4 @@
-# Super Grok AI Chat — llms.txt
+# OPEN AI TERMINAL — llms.txt
 > DkZ Modul MOD-021 · AI Chat mit 22 Providern, 16+ Agenten, Webhooks
 
 ## Modul-Dateien
