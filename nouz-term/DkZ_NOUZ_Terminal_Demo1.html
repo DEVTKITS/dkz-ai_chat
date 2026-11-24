@@ -1,0 +1,257 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>DkZ NOUZ-Term — Ghostty / Zellij / Herdr Demo</title>
+<style>
+:root{
+  --bg:#050507; --panel:#0b0b10; --panel2:#0f1016; --line:#242632;
+  --text:#ececf2; --muted:#8f94a4; --red:#fa1e4e; --green:#00ff88;
+  --purple:#9966ff; --cyan:#36d7ff; --amber:#ffcc66;
+}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;background:radial-gradient(circle at 50% -10%,#17111a 0,#07070a 42%,#030304 100%);color:var(--text);font-family:Inter,system-ui,sans-serif;overflow:hidden}
+body:before{
+  content:"";position:fixed;inset:0;pointer-events:none;opacity:.12;
+  background-image:linear-gradient(rgba(255,255,255,.018) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.018) 1px,transparent 1px);
+  background-size:24px 24px;
+}
+.app{height:100vh;padding:12px;display:grid;grid-template-rows:44px 1fr 44px;gap:8px}
+.topbar,.statusbar{background:rgba(11,11,16,.86);border:1px solid var(--line);backdrop-filter:blur(18px);display:flex;align-items:center;padding:0 14px;border-radius:12px;box-shadow:0 18px 60px rgba(0,0,0,.25)}
+.brand{font-weight:800;letter-spacing:.08em}.brand b{color:var(--red)}
+.tabs{display:flex;gap:8px;margin-left:22px}
+.tab{border:1px solid var(--line);background:#0a0a0f;color:var(--muted);padding:7px 11px;border-radius:8px;font:600 12px ui-monospace,monospace;cursor:pointer}
+.tab.active{color:#fff;border-color:#5a2231;box-shadow:inset 0 0 0 1px rgba(250,30,78,.25);background:#13090d}
+.right{margin-left:auto;display:flex;gap:12px;font:12px ui-monospace,monospace;color:var(--muted)}
+.dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--green);box-shadow:0 0 12px currentColor;margin-right:6px}
+.workspace{min-height:0;display:grid;grid-template-columns:290px minmax(0,1fr) 300px;gap:8px}
+.panel{position:relative;min-height:0;background:linear-gradient(180deg,rgba(14,14,20,.92),rgba(7,7,11,.94));border:1px solid var(--line);border-radius:13px;overflow:hidden;box-shadow:0 18px 60px rgba(0,0,0,.34)}
+.panel:before{content:"";position:absolute;left:50%;top:-1px;transform:translateX(-50%);width:76px;height:9px;border:1px solid var(--line);border-top:0;border-radius:0 0 12px 12px;background:#08080c}
+.title{height:38px;display:flex;align-items:center;padding:0 12px;border-bottom:1px solid #191b24;font:700 11px ui-monospace,monospace;letter-spacing:.08em;color:#aeb3c3}
+.title .tag{margin-left:auto;color:var(--green)}
+.files{padding:9px;font:12px ui-monospace,monospace;line-height:1.7}
+.file{padding:4px 7px;border-radius:6px;color:#b6bac8;cursor:pointer;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.file:hover,.file.sel{background:#151722;color:#fff}
+.file.sel{box-shadow:inset 2px 0 var(--red)}
+.indent1{padding-left:20px}.indent2{padding-left:34px}
+.center{display:grid;grid-template-rows:1fr 118px;gap:8px;min-width:0}
+.terminal{min-height:0;display:grid;grid-template-rows:38px 1fr}
+.terminal-head{display:flex;align-items:center;padding:0 12px;border-bottom:1px solid #191b24;font:12px ui-monospace,monospace}
+.breadcrumb{color:#d7d9e1}.breadcrumb span{color:var(--muted)}
+.herd-badge{margin-left:auto;padding:4px 8px;border:1px solid #4d2330;border-radius:999px;color:#ff8ca8;background:#17090e}
+.term-body{position:relative;overflow:hidden;padding:14px;font:13px/1.55 "JetBrains Mono",Consolas,monospace;background:
+ radial-gradient(circle at 70% 20%,rgba(153,102,255,.08),transparent 28%),
+ radial-gradient(circle at 30% 80%,rgba(250,30,78,.06),transparent 26%)}
+.graph-bg{position:absolute;inset:0;pointer-events:none;opacity:.28}
+.node{position:absolute;border:1px solid rgba(153,102,255,.4);color:#bda7ff;padding:3px 7px;border-radius:999px;font-size:10px;background:rgba(18,12,28,.55)}
+.n1{left:8%;top:15%}.n2{left:67%;top:18%}.n3{left:78%;top:62%}.n4{left:21%;top:72%}.n5{left:48%;top:45%}
+.log{position:relative;z-index:2;white-space:pre-wrap}
+.c-green{color:var(--green)}.c-red{color:var(--red)}.c-cyan{color:var(--cyan)}.c-purple{color:var(--purple)}.muted{color:var(--muted)}
+.herd{padding:8px 10px;font:12px/1.58 ui-monospace,monospace}
+.agent{padding:3px 7px;border-radius:6px;cursor:pointer;color:#c5c8d2}
+.agent:hover{background:#151722}.agent.active{background:#151722;color:#fff;box-shadow:inset 2px 0 var(--purple)}
+.depth1{padding-left:20px}.depth2{padding-left:36px}
+.state{float:right;font-size:10px}.run{color:var(--green)}.wait{color:var(--amber)}.done{color:#7f8798}
+.knowledge{padding:9px 11px;font:12px ui-monospace,monospace}
+.krow{display:grid;grid-template-columns:92px 1fr 62px;gap:8px;padding:6px 0;border-bottom:1px dashed #1d1f29}
+.krow b{font-weight:700}.ready{color:var(--green)}.updating{color:var(--amber)}
+.inputbox{padding:10px 12px}
+.suggest{display:grid;grid-template-columns:76px 1fr;gap:8px;font:11px ui-monospace,monospace;color:var(--muted);margin-bottom:7px}
+.suggest b{color:var(--cyan)}
+.prompt{height:44px;border:1px solid #2c2e3a;background:#08090d;border-radius:9px;display:flex;align-items:center;padding:0 12px;font:14px ui-monospace,monospace;box-shadow:inset 0 0 24px rgba(0,0,0,.25)}
+.prompt .p{color:var(--red);margin-right:8px;font-weight:800}
+#cmd{flex:1;background:transparent;border:0;outline:0;color:#fff;font:inherit}
+.statusbar{font:11px ui-monospace,monospace;gap:15px}
+.statusbar .push{margin-left:auto}
+.pill{padding:4px 7px;border:1px solid var(--line);border-radius:999px;color:#b9bdc9}
+.palette{position:fixed;inset:0;background:rgba(0,0,0,.55);display:none;align-items:flex-start;justify-content:center;padding-top:13vh;z-index:20}
+.palette.show{display:flex}
+.palette-card{width:min(720px,88vw);background:#0b0c11;border:1px solid #353744;border-radius:14px;box-shadow:0 30px 120px #000;padding:12px}
+.palette-card input{width:100%;height:46px;border-radius:9px;border:1px solid #2b2d38;background:#07080c;color:#fff;padding:0 12px;font:14px ui-monospace,monospace;outline:0}
+.results{margin-top:9px;max-height:48vh;overflow:auto}.res{display:grid;grid-template-columns:92px 1fr 130px;gap:8px;padding:9px;border-radius:8px;font:12px ui-monospace,monospace;color:#c3c6d0}.res:hover{background:#151722}
+.type{color:var(--cyan)}.source{color:var(--muted);text-align:right}
+.hidden{display:none!important}
+@media (max-width:1050px){.workspace{grid-template-columns:230px 1fr}.right-panel{display:none}}
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="topbar">
+    <div class="brand"><b>DKZ</b> NOUZ-TERM</div>
+    <div class="tabs">
+      <button class="tab active" data-tab="herd">HERD <span style="color:#00ff88">●4</span></button>
+      <button class="tab" data-tab="files">FILES</button>
+      <button class="tab" data-tab="knowledge">KNOWLEDGE</button>
+      <button class="tab" data-tab="services">SERVICES</button>
+    </div>
+    <div class="right"><span><i class="dot"></i>GHOSTTY</span><span>ZELLIJ: dkz-system</span><span>HERDR: attached</span></div>
+  </div>
+
+  <div class="workspace">
+    <section class="panel">
+      <div class="title">SUPERFILE <span class="tag">SYNC</span></div>
+      <div class="files">
+        <div class="file">📁 DEVKiTZ</div>
+        <div class="file indent1">📁 github-hub</div>
+        <div class="file indent2 sel">📁 dkz-dashboard</div>
+        <div class="file indent2">📁 modules</div>
+        <div class="file indent2">📁 wissen-hub</div>
+        <div class="file indent2" data-file="donut-orbit.html">📄 donut-orbit.html</div>
+        <div class="file indent2" data-file="renderer.rs">📄 renderer.rs</div>
+        <div class="file indent2" data-file="Cargo.toml">📄 Cargo.toml</div>
+        <div style="height:9px"></div>
+        <div class="muted">WORKTREES</div>
+        <div class="file indent1">🐑 architect/main</div>
+        <div class="file indent1">🐑 rust-renderer</div>
+        <div class="file indent1">🐑 qa/performance</div>
+      </div>
+    </section>
+
+    <main class="center">
+      <section class="panel terminal">
+        <div class="terminal-head">
+          <div class="breadcrumb">ghostty <span>›</span> zellij <span>›</span> herdr <span>›</span> nouz-term <span>›</span> rust-renderer</div>
+          <div class="herd-badge">HERD · 4 ACTIVE</div>
+        </div>
+        <div class="term-body">
+          <div class="graph-bg">
+            <div class="node n1">GitNexus</div><div class="node n2">NOUZ</div><div class="node n3">LLM-Wiki</div><div class="node n4">Graphify</div><div class="node n5">renderer</div>
+          </div>
+          <div id="log" class="log"><span class="muted">[context]</span> repo=dkz-dashboard  branch=feature/nouz-term
+<span class="muted">[herd]</span>    root=architect  agent=rust-renderer  pane=hrd:17
+<span class="muted">[knowledge]</span> <span class="c-green">GNX● GF● LW● LLMS● NOUZ● ATUIN●</span>
+
+<span class="c-cyan">rust-renderer@herd</span> <span class="c-purple">~/DEVKiTZ/github-hub/dkz-dashboard</span>
+$ cargo test renderer
+
+running 6 tests
+test renderer::projection ........ <span class="c-green">ok</span>
+test renderer::dirty_cells ....... <span class="c-green">ok</span>
+test renderer::graph_overlay ..... <span class="c-green">ok</span>
+test renderer::transition ........ <span class="c-green">ok</span>
+test renderer::resize ............ <span class="c-green">ok</span>
+test renderer::context_delta ..... <span class="c-green">ok</span>
+
+test result: <span class="c-green">ok</span>. 6 passed; 0 failed
+
+<span class="muted">[atuin]</span> stored · author=herd:nouz-term/rust-renderer · task=renderer-018
+<span class="muted">[gitnexus]</span> impact: Renderer::update → 3 callers · 0 breaking paths
+<span class="muted">[nouz]</span> 7 related nodes · active cluster: terminal-rendering</div>
+        </div>
+      </section>
+
+      <section class="panel inputbox">
+        <div class="suggest"><b>CONTEXT</b><span>renderer.rs · Herd/rust-renderer · GitNexus 3 refs · NOUZ 7 nodes</span></div>
+        <div class="prompt"><span class="p">❯</span><input id="cmd" autocomplete="off" spellcheck="false" placeholder="Shell · @Agent · #NOUZ · /Files · ?Navi · Ctrl+P Palette"></div>
+      </section>
+    </main>
+
+    <aside class="panel right-panel">
+      <div class="title">HERD / KNOWLEDGE <span class="tag">LIVE</span></div>
+      <div class="herd" id="herdTree">
+        <div class="agent active">● Architect <span class="state run">RUNNING</span></div>
+        <div class="agent depth1">├─ ● Rust Core <span class="state run">RUNNING</span></div>
+        <div class="agent depth2">│  └─ ● Renderer <span class="state run">WORKING</span></div>
+        <div class="agent depth1">├─ ● Knowledge <span class="state run">INDEXING</span></div>
+        <div class="agent depth1">└─ ◐ QA <span class="state wait">WAITING</span></div>
+      </div>
+      <div class="title">KNOWLEDGE SERVICES</div>
+      <div class="knowledge">
+        <div class="krow"><b>ATUIN</b><span>14 shells · 8 agents</span><span class="ready">READY</span></div>
+        <div class="krow"><b>GitNexus</b><span>8,421 symbols</span><span class="ready">READY</span></div>
+        <div class="krow"><b>Graphify</b><span>1,836 nodes</span><span class="ready">READY</span></div>
+        <div class="krow"><b>LLM-Wiki</b><span>427 pages</span><span class="ready">READY</span></div>
+        <div class="krow"><b>llms.txt</b><span>wissen-hub</span><span class="ready">READY</span></div>
+        <div class="krow"><b>NOUZ</b><span>2,847 nodes</span><span class="ready">READY</span></div>
+      </div>
+    </aside>
+  </div>
+
+  <div class="statusbar">
+    <span class="pill">A● ATUIN</span><span class="pill">GNX●</span><span class="pill">GF●</span><span class="pill">LW●</span><span class="pill">LLMS●</span><span class="pill">NOUZ●</span>
+    <span class="push">Ghostty → Zellij → Herdr → Subterminal · Ctrl+P Palette</span>
+  </div>
+</div>
+
+<div id="palette" class="palette">
+  <div class="palette-card">
+    <input id="palInput" placeholder="fzf unified palette — files, history, navi, NOUZ, agents, GitNexus…">
+    <div class="results">
+      <div class="res"><span class="type">FILE</span><span>modules/wissen-hub/templates/donut-orbit.html</span><span class="source">Superfile</span></div>
+      <div class="res"><span class="type">AGENT</span><span>@rust-renderer</span><span class="source">Herdr</span></div>
+      <div class="res"><span class="type">KNOWLEDGE</span><span>Terminal Renderer Architecture</span><span class="source">NOUZ</span></div>
+      <div class="res"><span class="type">SYMBOL</span><span>Renderer::update</span><span class="source">GitNexus</span></div>
+      <div class="res"><span class="type">HISTORY</span><span>cargo test renderer</span><span class="source">Atuin</span></div>
+      <div class="res"><span class="type">COMMAND</span><span>cargo test --workspace</span><span class="source">Navi</span></div>
+      <div class="res"><span class="type">WIKI</span><span>Renderer Performance Decisions</span><span class="source">LLM-Wiki</span></div>
+    </div>
+  </div>
+</div>
+
+<script>
+const log = document.querySelector('#log');
+const cmd = document.querySelector('#cmd');
+const palette = document.querySelector('#palette');
+const palInput = document.querySelector('#palInput');
+
+function append(text, cls=''){
+  const line = document.createElement('div');
+  line.className = cls;
+  line.textContent = text;
+  log.appendChild(line);
+  log.parentElement.scrollTop = log.parentElement.scrollHeight;
+}
+cmd.addEventListener('keydown', e => {
+  if(e.key === 'Enter'){
+    const v = cmd.value.trim();
+    if(!v) return;
+    append('$ ' + v, 'c-cyan');
+    if(v === 'help'){
+      append('commands: help · herd · knowledge · files · clear · @qa <task> · #<query> · /<file> · ?<command>', 'muted');
+    } else if(v === 'herd'){
+      append('HERD nouz-term: architect[running] → rust-core[running] → renderer[working], knowledge[indexing], qa[waiting]');
+    } else if(v === 'knowledge'){
+      append('ATUIN● GNX● GRAPHIFY● LLM-WIKI● LLMS● NOUZ● — context healthy', 'c-green');
+    } else if(v === 'files'){
+      append('Superfile context: /DEVKiTZ/github-hub/dkz-dashboard · selected=donut-orbit.html');
+    } else if(v === 'clear'){
+      log.innerHTML='';
+    } else if(v.startsWith('@')){
+      append('[herdr] routed task to ' + v.split(' ')[0] + ' · subterminal attached', 'c-purple');
+    } else if(v.startsWith('#')){
+      append('[nouz] 7 related nodes · 3 GitNexus symbols · 2 LLM-Wiki pages', 'c-purple');
+    } else if(v.startsWith('/')){
+      append('[superfile] focused path candidate: ' + v.slice(1), 'c-cyan');
+    } else if(v.startsWith('?')){
+      append('[navi] suggested command template inserted into ZLE buffer', 'c-cyan');
+    } else {
+      append('[atuin] command stored · [router] shell intent · execution simulated in demo', 'muted');
+    }
+    cmd.value='';
+  }
+});
+document.addEventListener('keydown', e => {
+  if((e.ctrlKey || e.metaKey) && e.key.toLowerCase()==='p'){
+    e.preventDefault(); palette.classList.add('show'); setTimeout(()=>palInput.focus(),0);
+  }
+  if(e.key==='Escape'){ palette.classList.remove('show'); cmd.focus(); }
+});
+palette.addEventListener('click', e => { if(e.target===palette) palette.classList.remove('show'); });
+document.querySelectorAll('.file').forEach(el => el.addEventListener('click',()=>{
+  document.querySelectorAll('.file').forEach(x=>x.classList.remove('sel')); el.classList.add('sel');
+  const f = el.dataset.file || el.textContent.trim();
+  append('[superfile] selection.changed → ' + f, 'muted');
+}));
+document.querySelectorAll('.agent').forEach(el => el.addEventListener('click',()=>{
+  document.querySelectorAll('.agent').forEach(x=>x.classList.remove('active')); el.classList.add('active');
+  append('[herdr] focused subterminal → ' + el.textContent.replace(/\s+/g,' ').trim(), 'c-purple');
+}));
+document.querySelectorAll('.tab').forEach(t => t.addEventListener('click',()=>{
+  document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active')); t.classList.add('active');
+  append('[zellij] switched system tab → ' + t.dataset.tab.toUpperCase(), 'muted');
+}));
+cmd.focus();
+</script>
+</body>
+</html>
