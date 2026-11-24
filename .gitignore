@@ -5,3 +5,8 @@ node_modules/
 
 # Liefer-Artefakte (Patches an den Nutzer, nicht versionieren)
 *.patch
+
+# DkZ Terminal Style / NOUZ-Term: generierte bzw. lokale Dateien
+dkz-terminal-style/dist/
+nouz-term/data.local.js
+__pycache__/

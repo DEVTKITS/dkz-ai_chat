@@ -1,0 +1,182 @@
+/* DkZ Terminal Style — Bausteine (tm-*). Nutzt ausschließlich Tokens aus tokens.css, kein Hex.
+   Theme-Struktur (Radius, Schrift, Fase, Kerbe) steht unten; Farben stehen in tokens.json. */
+:root{--notch:block}
+[data-theme="contrast"]{--radius:0px;--radius-sm:0px;--radius-pill:0px;--notch:none;--font-main:var(--font-mono)}
+[data-theme="control"]{--radius:0px;--radius-sm:0px;--notch:none;--font-main:"Archivo","Inter",system-ui,sans-serif}
+[data-theme="content"]{--radius:18px;--radius-sm:12px;--radius-pill:50px;--font-main:"Syne","Inter",system-ui,sans-serif;--font-mono:"Space Mono",ui-monospace,Consolas,monospace}
+
+*,*::before,*::after{box-sizing:border-box}
+.tm-page{margin:0;min-height:100dvh;color:var(--text);font:400 14px/1.55 var(--font-main);-webkit-font-smoothing:antialiased;
+  background:radial-gradient(circle at 50% -10%,var(--bg-glow) 0,var(--bg-mid) 42%,var(--bg-deep) 100%) var(--bg)}
+.tm-page::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;
+  background-image:linear-gradient(var(--grid-line) 1px,transparent 1px),linear-gradient(90deg,var(--grid-line) 1px,transparent 1px);background-size:24px 24px}
+.tm-page :focus-visible{outline:2px solid var(--focus);outline-offset:2px}
+.tm-page button{font:inherit;color:inherit}
+.tm-skip{position:absolute;left:-999px;top:8px;z-index:30;background:var(--accent);color:var(--on-accent);padding:8px 12px;border-radius:var(--radius-sm)}
+.tm-skip:focus{left:8px}
+.tm-sr{position:absolute;width:1px;height:1px;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+/* Bühne für Einbettungen und Vorschauen: gleiche Grundwerte wie die Seite, aber ohne Vollbild-Höhe. */
+.tm-stage{padding:var(--space-lg);background:var(--bg);color:var(--text);font:400 14px/1.55 var(--font-main)}
+
+/* ── Rahmen der Seite ─────────────────────────────────────────────── */
+.tm-app{position:relative;z-index:1;min-height:100dvh;display:flex;flex-direction:column;gap:var(--space-sm);
+  padding:var(--space-md) max(var(--space-lg),env(safe-area-inset-right)) var(--space-md) max(var(--space-lg),env(safe-area-inset-left))}
+.tm-top,.tm-status{display:flex;flex-wrap:wrap;align-items:center;gap:var(--space-sm) var(--space-lg);padding:var(--space-sm) var(--space-lg);
+  background:var(--glass);border:1px solid var(--border);border-radius:var(--radius);backdrop-filter:blur(8px);box-shadow:var(--shadow-pane)}
+.tm-top{min-height:48px}
+.tm-brand{font:800 14px/1 var(--font-main);letter-spacing:.08em}
+.tm-brand b{color:var(--accent)}
+.tm-tabs{display:flex;flex-wrap:wrap;gap:var(--space-sm)}
+.tm-tab{min-height:36px;padding:0 12px;border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--bg-sunken);
+  color:var(--text-muted);font:600 12px/1 var(--font-mono);cursor:pointer}
+.tm-tab:hover{color:var(--text-strong)}
+.tm-tab[aria-selected="true"]{color:var(--tab-on-fg);background:var(--tab-on-bg);border-color:var(--tab-on-bd);
+  box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--accent) 25%,transparent)}
+.tm-count{color:var(--ok)}
+.tm-meta{margin-left:auto;display:flex;flex-wrap:wrap;align-items:center;gap:var(--space-sm) var(--space-md);font:12px var(--font-mono);color:var(--text-muted)}
+.tm-dot{display:inline-block;width:7px;height:7px;margin-right:6px;border-radius:var(--radius-pill);background:var(--ok);box-shadow:var(--glow-dot)}
+.tm-mode{padding:3px 8px;border:1px solid var(--chip-accent-bd);border-radius:var(--radius-pill);background:var(--chip-accent-bg);color:var(--chip-accent-fg);font-weight:700;letter-spacing:.08em}
+.tm-themes{display:flex;gap:var(--space-sm)}
+.tm-theme{width:28px;height:28px;padding:0;border:1px solid var(--border-strong);border-radius:var(--radius-pill);cursor:pointer;
+  background:linear-gradient(135deg,var(--bg) 50%,var(--accent) 50%)}
+.tm-theme[aria-pressed="true"]{outline:2px solid var(--focus);outline-offset:2px}
+
+/* ── Arbeitsfläche: Raster je Ansicht (data-view) ─────────────────── */
+.tm-workspace{flex:1;min-height:0;display:grid;gap:var(--space-sm);grid-template-columns:minmax(0,1fr)}
+.tm-a-files{grid-area:files}.tm-a-preview{grid-area:preview}.tm-a-term{grid-area:term}.tm-a-input{grid-area:input}
+.tm-a-side{grid-area:side}.tm-a-graph{grid-area:graph}.tm-a-services{grid-area:services}
+.tm-workspace[data-view="herd"]{grid-template-areas:"term" "input" "side" "files"}
+.tm-workspace[data-view="files"]{grid-template-areas:"files" "preview" "term" "input"}
+.tm-workspace[data-view="knowledge"]{grid-template-areas:"graph" "side" "term" "input"}
+.tm-workspace[data-view="services"]{grid-template-areas:"services" "term" "input"}
+@media (min-width:640px){
+  .tm-workspace{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
+  .tm-workspace[data-view="herd"]{grid-template-areas:"term term" "input input" "files side"}
+  .tm-workspace[data-view="files"]{grid-template-areas:"files preview" "term term" "input input"}
+  .tm-workspace[data-view="knowledge"]{grid-template-areas:"graph graph" "side side" "term term" "input input"}
+  .tm-workspace[data-view="services"]{grid-template-areas:"services services" "term term" "input input"}
+}
+@media (min-width:1050px){
+  .tm-app{height:100dvh;min-height:0}
+  .tm-workspace[data-view="herd"]{grid-template-columns:290px minmax(0,1fr) 300px;grid-template-rows:minmax(0,1fr) auto;grid-template-areas:"files term side" "files input side"}
+  .tm-workspace[data-view="files"]{grid-template-columns:340px minmax(0,1fr);grid-template-rows:minmax(0,1fr) 168px auto;grid-template-areas:"files preview" "term term" "input input"}
+  .tm-workspace[data-view="knowledge"]{grid-template-columns:minmax(0,1fr) 320px;grid-template-rows:minmax(0,1fr) 168px auto;grid-template-areas:"graph side" "term term" "input input"}
+  .tm-workspace[data-view="services"]{grid-template-columns:minmax(0,1fr);grid-template-rows:minmax(0,1fr) 168px auto;grid-template-areas:"services" "term" "input"}
+}
+
+/* ── Panel ────────────────────────────────────────────────────────── */
+.tm-panel{position:relative;min-width:0;min-height:0;display:flex;flex-direction:column;overflow:hidden;
+  background:linear-gradient(180deg,var(--panel-top),var(--panel-bottom));border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow-pane)}
+.tm-panel[hidden]{display:none}
+.tm-panel::before{content:"";position:absolute;left:50%;top:-1px;z-index:2;width:76px;height:9px;transform:translateX(-50%);
+  border:1px solid var(--border);border-top:0;border-radius:0 0 12px 12px;background:var(--bg-input);display:var(--notch)}
+.tm-title{display:flex;align-items:center;gap:var(--space-sm);flex:none;min-height:38px;margin:0;padding:0 var(--space-md);border-bottom:1px solid var(--border-soft);
+  font:700 11px/1 var(--font-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--text-dim)}
+.tm-tag{margin-left:auto;color:var(--ok)}
+.tm-scroll{flex:1;min-height:0;overflow:auto}
+@media (max-width:1049px){
+  .tm-a-files .tm-scroll,.tm-a-side .tm-scroll,.tm-a-preview .tm-scroll{max-height:42dvh}
+  .tm-a-graph .tm-scroll,.tm-a-services .tm-scroll{max-height:60dvh}
+}
+
+/* ── Dateibaum + Vorschau ─────────────────────────────────────────── */
+.tm-tree{padding:var(--space-sm);font:12px/1.7 var(--font-mono)}
+.tm-sub{padding:var(--space-sm) var(--space-sm) var(--space-xs);color:var(--text-muted);font:700 11px var(--font-mono);letter-spacing:.08em}
+.tm-leaf,.tm-agent{display:flex;align-items:baseline;gap:6px;width:100%;margin:0;padding:4px 8px 4px calc(8px + var(--d,0) * 14px);border:0;border-radius:6px;
+  background:none;color:var(--text-dim);font:inherit;text-align:left;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;cursor:pointer}
+.tm-leaf:hover,.tm-agent:hover,.tm-leaf[aria-current="true"],.tm-agent[aria-current="true"]{background:var(--bg-hover);color:var(--text-strong)}
+.tm-leaf[aria-current="true"]{box-shadow:inset 2px 0 var(--accent)}
+.tm-agent[aria-current="true"]{box-shadow:inset 2px 0 var(--agent)}
+.tm-glyph{flex:none;width:1.1em;color:var(--text-muted)}
+.tm-name{overflow:hidden;text-overflow:ellipsis}
+@media (pointer:coarse){.tm-leaf,.tm-agent{padding-block:9px}.tm-tab{min-height:44px}}
+.tm-dl{margin:0;padding:var(--space-md);display:grid;grid-template-columns:max-content 1fr;gap:var(--space-sm) var(--space-lg);font:12px/1.6 var(--font-mono)}
+.tm-dl dt{color:var(--text-muted)}
+.tm-dl dd{margin:0;color:var(--text);overflow-wrap:anywhere}
+.tm-miss{color:var(--text-faint)}
+
+/* ── Terminal ─────────────────────────────────────────────────────── */
+.tm-term{flex:1;min-height:0}
+.tm-term-head{display:flex;flex-wrap:wrap;align-items:center;gap:var(--space-sm);flex:none;padding:var(--space-sm) var(--space-md);border-bottom:1px solid var(--border-soft);font:12px var(--font-mono)}
+.tm-crumb{color:var(--text-dim)}.tm-crumb span{color:var(--text-muted)}
+.tm-badge{margin-left:auto;padding:4px 8px;border:1px solid var(--chip-accent-bd);border-radius:var(--radius-pill);background:var(--chip-accent-bg);color:var(--chip-accent-fg);font:600 11px var(--font-mono)}
+.tm-term-body{position:relative;flex:1;min-height:0;overflow:auto;padding:var(--space-md);font:13px/1.55 var(--font-mono);
+  background:radial-gradient(circle at 70% 20%,color-mix(in srgb,var(--agent) 8%,transparent),transparent 28%),radial-gradient(circle at 30% 80%,color-mix(in srgb,var(--accent) 6%,transparent),transparent 26%)}
+@media (max-width:1049px){.tm-a-term .tm-term-body{min-height:200px;max-height:46dvh}}
+.tm-workspace:not([data-view="herd"]) .tm-a-term .tm-term-body{max-height:168px;min-height:96px}
+.tm-bg-graph{position:absolute;inset:0;width:100%;height:100%;opacity:.28;pointer-events:none}
+.tm-log{position:relative;z-index:1;white-space:pre-wrap;overflow-wrap:anywhere}
+.tm-log>div{min-height:1.55em}
+.tm-c-ok{color:var(--ok)}.tm-c-warn{color:var(--warn)}.tm-c-info{color:var(--info)}.tm-c-agent{color:var(--agent)}
+.tm-c-err{color:var(--err)}.tm-c-muted{color:var(--text-muted)}.tm-c-strong{color:var(--text-strong)}
+
+/* ── Herd + Wissen ────────────────────────────────────────────────── */
+.tm-herd{padding:var(--space-sm) 10px;font:12px/1.58 var(--font-mono)}
+.tm-state{margin-left:auto;padding-left:var(--space-sm);font-size:10px;white-space:nowrap}
+.tm-s-ok{color:var(--ok)}.tm-s-warn{color:var(--warn)}.tm-s-faint{color:var(--text-faint)}.tm-s-err{color:var(--err)}
+.tm-new{color:var(--accent);font-size:9px}
+.tm-workspace[data-view="knowledge"] .tm-sec-herd{display:none}
+.tm-know{padding:var(--space-sm) 11px;font:12px var(--font-mono)}
+.tm-krow{display:grid;grid-template-columns:minmax(64px,92px) minmax(0,1fr) auto;gap:var(--space-sm);width:100%;margin:0;padding:6px 0;border:0;border-bottom:1px dashed var(--border-dash);background:none;color:inherit;font:inherit;text-align:left;cursor:pointer}
+.tm-krow:hover{background:var(--bg-hover)}
+.tm-krow b{color:var(--text)}
+.tm-krow span:nth-child(2){color:var(--text-dim);overflow-wrap:anywhere}
+
+/* ── Prompt ───────────────────────────────────────────────────────── */
+.tm-input{padding:var(--space-md);flex:none}
+.tm-suggest{display:grid;grid-template-columns:76px minmax(0,1fr);gap:var(--space-sm);min-height:1.6em;margin-bottom:var(--space-sm);font:11px var(--font-mono);color:var(--text-muted)}
+.tm-suggest b{color:var(--info)}
+.tm-prompt{display:flex;align-items:center;height:44px;padding:0 var(--space-md);border:1px solid var(--border-strong);border-radius:var(--radius-sm);background:var(--bg-input);font:14px var(--font-mono)}
+.tm-prompt:focus-within{border-color:var(--focus);box-shadow:0 0 0 2px color-mix(in srgb,var(--focus) 35%,transparent)}
+.tm-p{margin-right:var(--space-sm);color:var(--accent);font-weight:800}
+.tm-cmd{flex:1;min-width:0;border:0;outline:0;background:transparent;color:var(--text-strong);font:inherit}
+.tm-cmd::placeholder{color:var(--text-muted)}
+
+/* ── Graph + Tabelle ──────────────────────────────────────────────── */
+.tm-graph{display:block;width:100%}
+.tm-graph-main{height:clamp(260px,52dvh,520px)}
+.tm-gedge{stroke:var(--chip-agent-bd);stroke-width:1;fill:none}
+.tm-gnode rect{fill:var(--chip-agent-bg);stroke:var(--chip-agent-bd)}
+.tm-gnode text{fill:var(--chip-agent-fg);font:10px var(--font-mono);text-anchor:middle;dominant-baseline:central}
+.tm-gnode.is-hit rect{stroke:var(--accent)}.tm-gnode.is-hit text{fill:var(--accent);font-weight:700}
+.tm-gnode[tabindex]{cursor:pointer}
+.tm-table{width:100%;border-collapse:collapse;font:12px var(--font-mono)}
+.tm-table th{padding:var(--space-sm) var(--space-md);background:var(--bg-elevated);border-bottom:1px solid var(--border-soft);color:var(--text-muted);font-weight:700;letter-spacing:.08em;text-align:left;text-transform:uppercase;white-space:nowrap}
+.tm-table td{padding:var(--space-sm) var(--space-md);border-bottom:1px dashed var(--border-dash);color:var(--text-dim)}
+.tm-table td:first-child{color:var(--text)}
+.tm-table tr.is-flash td{background:var(--bg-hover)}
+
+/* ── Statusleiste + Pillen ────────────────────────────────────────── */
+.tm-status{font:11px var(--font-mono)}
+.tm-pill{padding:4px 8px;border:1px solid var(--border);border-radius:var(--radius-pill);background:none;color:var(--text-dim);cursor:pointer;font:inherit}
+.tm-pill:hover{color:var(--text-strong);background:var(--bg-hover)}
+.tm-push{margin-left:auto;color:var(--text-muted)}
+.tm-ver{color:var(--text-faint)}
+
+/* ── Befehlspalette ───────────────────────────────────────────────── */
+.tm-pal{position:fixed;inset:0;z-index:20;display:none;align-items:flex-start;justify-content:center;padding:13vh var(--space-lg) var(--space-lg);background:var(--scrim)}
+.tm-pal.is-open{display:flex}
+.tm-pal-card{display:flex;flex-direction:column;width:min(720px,100%);max-height:78dvh;padding:var(--space-md);border:1px solid var(--border-overlay);border-radius:14px;background:var(--bg-overlay);box-shadow:var(--shadow-pop)}
+.tm-pal-in{width:100%;height:46px;padding:0 var(--space-md);border:1px solid var(--border-strong);border-radius:var(--radius-sm);background:var(--bg-input);color:var(--text-strong);font:14px var(--font-mono);outline:0}
+.tm-pal-in:focus{border-color:var(--focus)}
+.tm-pal-list{margin:var(--space-sm) 0 0;padding:0;list-style:none;overflow:auto}
+.tm-res{display:grid;grid-template-columns:minmax(64px,92px) minmax(0,1fr) auto;gap:var(--space-sm);padding:9px;border-radius:var(--radius-sm);color:var(--text-dim);font:12px var(--font-mono);cursor:pointer}
+.tm-res[aria-selected="true"]{background:var(--bg-hover);color:var(--text-strong)}
+.tm-res mark{background:none;color:var(--accent);font-weight:800;text-decoration:underline}
+.tm-res span:nth-child(2){overflow-wrap:anywhere}
+.tm-type{color:var(--info)}.tm-src{color:var(--text-muted);text-align:right}
+.tm-empty{padding:var(--space-md);color:var(--text-muted);font:12px var(--font-mono)}
+
+/* ── Theme-Struktur: Kontrast (invertierte Treffer), Control Room (Fase, Raster), Content (Pillen) ─ */
+[data-theme="contrast"] .tm-leaf:hover,[data-theme="contrast"] .tm-agent:hover,[data-theme="contrast"] .tm-leaf[aria-current="true"],
+[data-theme="contrast"] .tm-agent[aria-current="true"],[data-theme="contrast"] .tm-res[aria-selected="true"],[data-theme="contrast"] .tm-pill:hover{background:var(--accent);color:var(--on-accent)}
+[data-theme="contrast"] .tm-res[aria-selected="true"] mark{color:var(--on-accent)}
+/* Auf invertierten Zeilen müssen Glyphen, Status und Baumlinien die Zeilenfarbe erben, sonst sind sie grün auf grün unsichtbar. */
+[data-theme="contrast"] .tm-leaf:hover *,[data-theme="contrast"] .tm-agent:hover *,[data-theme="contrast"] .tm-leaf[aria-current="true"] *,
+[data-theme="contrast"] .tm-agent[aria-current="true"] *,[data-theme="contrast"] .tm-res[aria-selected="true"] *,[data-theme="contrast"] .tm-pill:hover *,
+[data-theme="contrast"] .tm-tab[aria-selected="true"] *{color:inherit}
+[data-theme="control"] .tm-top,[data-theme="control"] .tm-panel,[data-theme="control"] .tm-status,[data-theme="control"] .tm-pal-card{clip-path:polygon(10px 0,100% 0,100% calc(100% - 10px),calc(100% - 10px) 100%,0 100%,0 10px)}
+[data-theme="control"] .tm-brand,[data-theme="control"] .tm-tab,[data-theme="control"] .tm-title{text-transform:uppercase;font-stretch:125%}
+[data-theme="control"] .tm-panel::after{content:"";position:absolute;inset:0;z-index:2;pointer-events:none;background:repeating-linear-gradient(0deg,color-mix(in srgb,var(--text) 3%,transparent) 0 1px,transparent 1px 3px)}
+[data-theme="content"] .tm-tab,[data-theme="content"] .tm-pill,[data-theme="content"] .tm-badge,[data-theme="content"] .tm-mode{border-radius:var(--radius-pill)}
+@media (prefers-reduced-motion:reduce){.tm-page *{animation:none!important;transition:none!important}}
