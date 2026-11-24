@@ -5,6 +5,7 @@ tokens.json (Format des Design-System-Typs)  ──►  dist/tokens.css
                                              ──►  dist/dkz-tokens.sh      Shell (24-Bit, Theme master)
                                              ──►  dist/dkz-themes.kdl     Zellij, alle Themes
                                              ──►  dist/ghostty/dkz-<theme> Ghostty, je Theme
+                                             ──►  dist/herdr/dkz-<theme>.toml  Herdr [theme.custom], je Theme
                                              ──►  dist/bundle.css          = terminal.css (für das Artifact)
 und trägt tokens.css + terminal.css zwischen Markern in die HTML-Dateien ein:
     /* @dkz:tokens:begin */ … /* @dkz:tokens:end */
@@ -202,6 +203,23 @@ def build_ghostty(cols, themes, theme):
     out += [f"palette = {i}={o(tok)}" for i, (_, tok) in enumerate(ANSI)]
     return "\n".join(out) + "\n"
 
+# Herdr: dokumentierte Schlüssel von [theme.custom] (https://herdr.dev/docs/config-reference/). Die Namen sind
+# dokumentiert, ihre genaue Wirkung nicht — die Zuordnung zu unseren Tokens ist deshalb eine Auslegung.
+HERDR = {"accent": "accent", "panel_bg": "bg-card", "sidebar_bg": "bg", "active_row_bg": "bg-hover",
+         "selection_bg": "bg-hover", "surface0": "bg-sunken", "surface1": "bg-elevated", "surface_dim": "bg-deep",
+         "overlay0": "border-strong", "overlay1": "border-overlay", "text": "text", "subtext0": "text-muted",
+         "mauve": "lila", "green": "green", "yellow": "amber", "red": "red", "blue": "cyan", "teal": "cyan",
+         "peach": "accent-hover"}
+
+def build_herdr(cols, themes, theme):
+    out = [f"# DkZ Terminal Style — Herdr [theme.custom] (Theme {theme}), generated from tokens.json.",
+           "# Schlüsselnamen laut https://herdr.dev/docs/config-reference/. Die Zuordnung zu unseren Tokens ist eine",
+           "# Auslegung: die Doku nennt die Namen, nicht die genaue Wirkung. Ungetestet (Herdr ist hier nicht installiert).",
+           "# In ~/.config/herdr/config.toml einfügen, danach:  herdr server reload-config",
+           "[theme.custom]"]
+    out += [f'{k} = "{opaque(cols, themes, tok, theme)}"' for k, tok in HERDR.items()]
+    return "\n".join(out) + "\n"
+
 # ── In HTML einfügen ───────────────────────────────────────────────────
 def inject(text, key, body):
     pat = re.compile(r"(/\* @dkz:%s:begin \*/)(.*?)(/\* @dkz:%s:end \*/)" % (key, key), re.S)
@@ -230,7 +248,8 @@ def main():
             if check: drift.append(str(tgt.relative_to(REPO)))
             else: tgt.write_text(new, encoding="utf-8")
     if not check and not errors:
-        DIST.mkdir(exist_ok=True); (DIST / "ghostty").mkdir(exist_ok=True)
+        DIST.mkdir(exist_ok=True); (DIST / "ghostty").mkdir(exist_ok=True); (DIST / "herdr").mkdir(exist_ok=True)
+        for th in themes: (DIST / "herdr" / f"dkz-{th}.toml").write_text(build_herdr(cols, themes, th), encoding="utf-8")
         (DIST / "tokens.css").write_text(tcss, encoding="utf-8")
         (DIST / "dkz-tokens.sh").write_text(build_shell(cols, themes), encoding="utf-8")
         (DIST / "dkz-themes.kdl").write_text(build_kdl(cols, themes), encoding="utf-8")

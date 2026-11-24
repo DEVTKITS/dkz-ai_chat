@@ -1,0 +1,77 @@
+// ╔══════════════════════════════════════════════════════════════════╗
+// ║  DkZ NOUZ-TERM // Zellij-Layout   Tabs: HERD · FILES · KNOWLEDGE · SERVICES ║
+// ║  Spiegelt die Oberfläche in nouz-term/index.html.                  ║
+// ║  Der Platzhalter für den Repo-Pfad wird von install.sh ersetzt.      ║
+// ╚══════════════════════════════════════════════════════════════════╝
+// Jedes Pane ist defensiv: fehlt ein Werkzeug, bleibt eine Shell mit Hinweis stehen statt eines toten Panes.
+layout {
+    default_tab_template {
+        pane size=1 borderless=true { plugin location="zellij:tab-bar"; }
+        children
+        pane size=2 borderless=true { plugin location="zellij:status-bar"; }
+    }
+
+    // HERD — Agenten, Operator-Shell, Posteingang
+    tab name="HERD" focus=true {
+        pane split_direction="vertical" {
+            pane size="62%" split_direction="horizontal" {
+                pane name="OPERATOR" focus=true {
+                    cwd "@REPO@"
+                    command "bash"
+                    args "-lc" "export NOUZ_REPO='@REPO@'; echo '[nouz] Ctrl+X p = Palette · @REPO@'; exec bash"
+                }
+                pane size="30%" name="A2A-INBOX" {
+                    command "bash"
+                    args "-lc" "@REPO@/odysseus/scripts/nanochat.sh inbox ${NOUZ_AGENT:-operator}"
+                }
+            }
+            pane split_direction="horizontal" {
+                pane name="HERD" {
+                    command "bash"
+                    args "-lc" "@REPO@/nouz-term/terminal/herd.sh watch"
+                }
+                pane size="40%" name="KNOWLEDGE" {
+                    command "bash"
+                    args "-lc" "@REPO@/nouz-term/terminal/herd.sh knowledge; exec bash"
+                }
+            }
+        }
+    }
+
+    // FILES — Superfile, sonst die Git-Dateiliste
+    tab name="FILES" {
+        pane name="SUPERFILE" {
+            cwd "@REPO@"
+            command "bash"
+            args "-lc" "if command -v spf >/dev/null 2>&1; then exec spf; else echo '[nouz] superfile (spf) fehlt — Ersatz: git ls-files'; git ls-files | ${PAGER:-less}; exec bash; fi"
+        }
+    }
+
+    // KNOWLEDGE — Repo-Sicht und installierte Skills
+    tab name="KNOWLEDGE" {
+        pane split_direction="vertical" {
+            pane name="GITVIZ" {
+                command "bash"
+                args "-lc" "@REPO@/odysseus/scripts/gitviz.sh watch"
+            }
+            pane name="SKILLS" {
+                command "bash"
+                args "-lc" "@REPO@/odysseus/scripts/skill-import.sh --list 2>&1 | head -60; exec bash"
+            }
+        }
+    }
+
+    // SERVICES — Stack-Gesundheit, Logs
+    tab name="SERVICES" {
+        pane split_direction="horizontal" {
+            pane size="45%" name="STATUS" {
+                command "bash"
+                args "-lc" "@REPO@/odysseus/scripts/odysseus-ctl.sh watch"
+            }
+            pane name="LOGS" {
+                command "bash"
+                args "-lc" "@REPO@/odysseus/scripts/odysseus-ctl.sh logs"
+            }
+        }
+    }
+}
