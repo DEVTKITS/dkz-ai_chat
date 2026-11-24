@@ -132,6 +132,15 @@ entstehen `dist/oat-cloud.css` (Web), `dist/oat-tokens.sh` (ANSI-256 für die
 Shell-Skripte — `gitviz`, `uri` und `chat-tools` benutzen sie wirklich) und
 `dist/oat-matrix.kdl` (Zellij). Details: [`design/README.md`](design/README.md).
 
+## 🖥️ NOUZ-Term — Oberfläche mit echten Daten
+
+```bash
+odysseus nouz export     # misst Agenten (A2A), Dateien (git), Dienste, Skills → nouz-term/data.local.js
+odysseus nouz url        # Adresse der Oberfläche mit ?live
+```
+
+Die Oberfläche selbst liegt in [`../nouz-term/`](../nouz-term/README.md), ihr Style-System in [`../dkz-terminal-style/`](../dkz-terminal-style/README.md). Der Export schreibt nur Messbares, alles andere bleibt `— ausstehend —`; Shell-Verlauf, `.env`, Vault und Dateiinhalte verlassen das System nie.
+
 ## 📊 GITVIZ — Repos sichtbar machen
 
 ```bash
@@ -223,7 +232,7 @@ Jede `SKILL.md` wird **kollisionssicher** (Pack-Prefix bei Namensgleichheit) nac
 
 ```
 odysseus/
-├── bin/odysseus            # Launcher (terminal·up·init·gitviz·chat·uri·design·vault·skills)
+├── bin/odysseus            # Launcher (terminal·up·init·gitviz·chat·uri·design·nouz·vault·skills)
 ├── docker-compose.yml      # der geschlossene Stack (11 Dienste + Profil nextcloud)
 ├── .env.example            # Vorlage (→ .env, nie committet)
 ├── config/                 # zellij-config · librechat.yaml · vault.Dockerfile
@@ -238,6 +247,7 @@ odysseus/
 ├── scripts/
 │   ├── gitviz.sh           # 📊 Repo-Visualisierung (Gitea-API + lokales Git)
 │   ├── uri.sh              # 🔗 oat://-Handler (+ install für Linux/Windows)
+│   ├── nouz-export.sh      # 🖥️ echte Daten für NOUZ-Term (+ nouz-export.py)
 │   ├── chat-tools.sh       # 🛠️ Chat mit Werkzeugen (Tool-Calling)
 │   └── vault · nanochat(A2A) · voice · browser · gitea-init · ctl · skill-import
 ├── skills/                 # import-skills Skill · registry/packs.tsv (43 Packs)

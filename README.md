@@ -47,6 +47,8 @@ dkz-ai_chat/
 ├── multiplexer/        # 🖥️ V1: Terminal-Multiplexer (Zellij + Zsh) — stabil
 ├── odysseus/           # 🛰️ V2: geschlossenes System (Gitea·OpenCloud·Chat·Vault) + V3: exe/
 │   └── design/         # 🎨 Cloud Design System (tokens.json → CSS·Shell·Zellij)
+├── nouz-term/          # 🖥️ NOUZ-Term: Terminal-Oberfläche (eine HTML-Datei) + Ghostty/Zellij/Herdr-Config
+├── dkz-terminal-style/ # 🎨 DkZ Terminal Style: tokens.json → CSS · Shell · Zellij · Ghostty · Herdr, Komponenten, Starter
 ├── prototypes/         # 🟢 Matrix-Terminal-Prototypen (HTML, Galerie: index.html)
 └── README.md           # Diese Datei
 ```
@@ -55,7 +57,7 @@ dkz-ai_chat/
 
 Das geschlossene Komplett-System im Matrix-Terminal: **Gitea** (Zentrum + A2A-Bus), **OpenCloud** mit **Immich**-Foto-Oberfläche, **Chat mit Werkzeugen**, **KeePass-Vault** für Agenten-Keys, **Atuin**-Logs, **Voicebox** (Piper TTS) — plus **Version 3** als Single-File (`odysseus.exe`). → [`odysseus/README.md`](odysseus/README.md)
 
-Dazu vier Bausteine, die alles zusammenhalten:
+Dazu sechs Bausteine, die alles zusammenhalten:
 
 | Baustein | Was es tut | Start |
 |:--|:--|:--|
@@ -63,6 +65,8 @@ Dazu vier Bausteine, die alles zusammenhalten:
 | 📊 **GITVIZ** | Repos sichtbar: Commit-Graph, Aktivitäts-Sparkline, Autoren, Branches, Gitea-Repos | `odysseus gitviz` |
 | 🔗 **`oat://`** | Links aus Gitea/Chat/Notizen öffnen im Terminal statt im Browser | `odysseus uri install` |
 | 🛠️ **Chat-Werkzeuge** | das lokale Modell fragt das System wirklich ab (12 Werkzeuge, Schreibrechte aus) | `odysseus chat` |
+| 🖥️ **NOUZ-Term** | Terminal-Oberfläche aus der Demo: Herd, Dateien, Wissensgraph, Palette, 5 Themes; echte Daten per Export | [`nouz-term/`](nouz-term/README.md) · `odysseus nouz export` |
+| 🎨 **DkZ Terminal Style** | Style-Template: ein Token-Satz für Web, Zellij, Ghostty, Herdr und Shell, mit Komponenten und Starter | [`dkz-terminal-style/`](dkz-terminal-style/README.md) · `dkz-terminal-style/build.sh` |
 
 ## 🖥️ Cosmo Multiplexer Umgebung
 
