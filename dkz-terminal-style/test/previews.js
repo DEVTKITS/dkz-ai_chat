@@ -14,7 +14,7 @@ if (shotDir) fs.mkdirSync(shotDir, { recursive: true });
 for (const f of ['dist/tokens.css', 'dist/bundle.css']) if (!fs.existsSync(path.join(ROOT, f))) { console.error(f + ' fehlt: erst build.sh ausführen'); process.exit(2); }
 const tokens = read('dist/tokens.css'), bundle = read('dist/bundle.css');
 const THEMES = JSON.parse(read('tokens.json')).color.themes.map(t => t.id);
-const comps = fs.readdirSync(path.join(ROOT, 'components')).filter(n => fs.existsSync(path.join(ROOT, 'components', n, 'preview.html'))).sort();
+const comps = fs.readdirSync(path.join(ROOT, 'components')).filter(n => fs.existsSync(path.join(ROOT, 'components', n, 'preview.html')) && n !== 'Cover').sort();
 
 let pass = 0, fail = 0;
 const ok = (name, cond, detail) => { if (cond) pass++; else { fail++; console.log('  ✖ ' + name + (detail !== undefined ? '  → ' + JSON.stringify(detail) : '')); } };
@@ -46,6 +46,33 @@ const ok = (name, cond, detail) => { if (cond) pass++; else { fail++; console.lo
       ok(`${tag}: deckender Grund`, r.bg && r.bg !== 'rgba(0, 0, 0, 0)' && r.bg !== 'transparent', r.bg);
       ok(`${tag}: keine Konsolenfehler`, errs.length === 0, errs.slice());
       if (shotDir && w === 900 && (theme === 'master' || theme === 'contrast')) await page.screenshot({ path: path.join(shotDir, `${name}-${theme}.png`) });
+    }
+  }
+
+  // Cover: eigene Regeln (cover.md) — Marker ohne group, Ordner nur preview.html, 960 px Breite, Name <= 960 - 2 x Einzug
+  {
+    const dir = path.join(ROOT, 'components', 'Cover'), raw = read('components/Cover/preview.html');
+    ok('Cover: Ordner enthält nur preview.html', JSON.stringify(fs.readdirSync(dir)) === '["preview.html"]', fs.readdirSync(dir));
+    ok('Cover: Marker in Zeile 1', /^<!-- @dsCard height=(2[4-9]\d|3[0-5]\d|360) -->\n/.test(raw));
+    ok('Cover: keine Breiten-Queries', !/@media|@container|\b\d+(\.\d+)?(vw|cqw)\b/.test(raw));
+    ok('Cover: keine Farbwerte außerhalb von Tokens', !/#[0-9a-fA-F]{3,8}\b|rgba?\(/.test(raw.replace(/<!--[\s\S]*?-->/g, '')));
+    ok('Cover: Herleitung als Kommentar', /Derivation[\s\S]*Blocks:[\s\S]*Arrangement:[\s\S]*Pattern:[\s\S]*Steps and radii:/.test(raw));
+    const body = raw.replace(/^<!--.*?-->\n?/, '');
+    for (const theme of THEMES) {
+      errs.length = 0;
+      await page.setViewportSize({ width: 960, height: 300 });
+      await page.setContent(`<!doctype html><html data-theme="${theme}"><head><meta charset="utf-8"><style>${tokens}\n${bundle}\nbody{margin:0}</style></head><body>${body}</body></html>`);
+      const r = await page.evaluate(() => {
+        const n = document.querySelector('.name').getBoundingClientRect(), t = document.querySelector('.tag').getBoundingClientRect(), cv = document.querySelector('.cv').getBoundingClientRect(), s = document.querySelector('svg').getBoundingClientRect();
+        return { nameR: n.right, nameT: n.top, nameB: n.bottom, tagB: t.bottom, tagW: t.width, h: cv.height, svgB: s.bottom, over: document.documentElement.scrollWidth - document.documentElement.clientWidth };
+      });
+      ok(`Cover/${theme}: Name passt in 960 - 2 x 32`, r.nameR <= 960 - 32, r);
+      ok(`Cover/${theme}: Name unter dem Band`, r.nameT >= r.svgB, r);
+      ok(`Cover/${theme}: Text liegt in der Höhe`, r.tagB <= r.h, r);
+      ok(`Cover/${theme}: Tagline <= 440 px`, r.tagW <= 440, r);
+      ok(`Cover/${theme}: kein Overflow`, r.over <= 0, r);
+      ok(`Cover/${theme}: keine Konsolenfehler`, errs.length === 0, errs.slice());
+      if (shotDir) await page.screenshot({ path: path.join(shotDir, `Cover-${theme}.png`), clip: { x: 0, y: 0, width: 960, height: 300 } });
     }
   }
   await browser.close();
