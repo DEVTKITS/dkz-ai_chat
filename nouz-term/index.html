@@ -451,7 +451,7 @@ function renderLog() {
 function keep(box, fn) {
   var a = document.activeElement, key = a && box.contains(a) ? a.getAttribute('data-k') : null;
   fn();
-  if (key) { var n = box.querySelector('[data-k="' + key.replace(/"/g, '\\"') + '"]'); if (n) n.focus(); }
+  if (key) { var n = box.querySelector('[data-k="' + CSS.escape(key) + '"]'); if (n) n.focus(); }
 }
 
 // ── Ansichten ───────────────────────────────────────────────────────

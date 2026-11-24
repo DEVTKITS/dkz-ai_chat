@@ -16,6 +16,9 @@ const tokens = read('dist/tokens.css'), bundle = read('dist/bundle.css');
 const THEMES = JSON.parse(read('tokens.json')).color.themes.map(t => t.id);
 const comps = fs.readdirSync(path.join(ROOT, 'components')).filter(n => fs.existsSync(path.join(ROOT, 'components', n, 'preview.html')) && n !== 'Cover').sort();
 
+// Zeile 1 (Marker) abtrennen und Kommentare entfernen ohne Regex-HTML-Filter (CodeQL: bad-html-filtering)
+const afterMarker = s => s.slice(s.indexOf('\n') + 1);
+const stripComments = s => { let out = '', i = 0; for (;;) { const a = s.indexOf('<!--', i); if (a < 0) return out + s.slice(i); const b = s.indexOf('-->', a + 4); out += s.slice(i, a); if (b < 0) return out; i = b + 3; } };
 let pass = 0, fail = 0;
 const ok = (name, cond, detail) => { if (cond) pass++; else { fail++; console.log('  ✖ ' + name + (detail !== undefined ? '  → ' + JSON.stringify(detail) : '')); } };
 
@@ -30,7 +33,7 @@ const ok = (name, cond, detail) => { if (cond) pass++; else { fail++; console.lo
     ok(`${name}: Marker in Zeile 1`, !!m);
     const readme = read(`components/${name}/README.md`);
     ok(`${name}: README beginnt mit einem Satz (Summary)`, /^[A-ZÄÖÜ][^\n]{12,}\.\s/.test(readme), readme.slice(0, 40));
-    const body = raw.replace(/^<!--.*?-->\n?/, '');
+    const body = afterMarker(raw);
     for (const theme of THEMES) for (const w of [360, 900]) {
       errs.length = 0;
       await page.setViewportSize({ width: w, height: m ? +m[2] : 300 });
@@ -55,9 +58,9 @@ const ok = (name, cond, detail) => { if (cond) pass++; else { fail++; console.lo
     ok('Cover: Ordner enthält nur preview.html', JSON.stringify(fs.readdirSync(dir)) === '["preview.html"]', fs.readdirSync(dir));
     ok('Cover: Marker in Zeile 1', /^<!-- @dsCard height=(2[4-9]\d|3[0-5]\d|360) -->\n/.test(raw));
     ok('Cover: keine Breiten-Queries', !/@media|@container|\b\d+(\.\d+)?(vw|cqw)\b/.test(raw));
-    ok('Cover: keine Farbwerte außerhalb von Tokens', !/#[0-9a-fA-F]{3,8}\b|rgba?\(/.test(raw.replace(/<!--[\s\S]*?-->/g, '')));
+    ok('Cover: keine Farbwerte außerhalb von Tokens', !/#[0-9a-fA-F]{3,8}\b|rgba?\(/.test(stripComments(raw)));
     ok('Cover: Herleitung als Kommentar', /Derivation[\s\S]*Blocks:[\s\S]*Arrangement:[\s\S]*Pattern:[\s\S]*Steps and radii:/.test(raw));
-    const body = raw.replace(/^<!--.*?-->\n?/, '');
+    const body = afterMarker(raw);
     for (const theme of THEMES) {
       errs.length = 0;
       await page.setViewportSize({ width: 960, height: 300 });
