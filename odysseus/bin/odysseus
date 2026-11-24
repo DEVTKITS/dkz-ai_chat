@@ -9,6 +9,7 @@
 #  odysseus gitviz ...   Repos sichtbar machen (graph·activity·authors·repos)
 #  odysseus chat ...     Chat MIT Werkzeugen (list·schema·call·ask)
 #  odysseus uri ...      URI-Handler oat://  (install·list·test)
+#  odysseus nouz ...     NOUZ-Term: echte Daten exportieren (export·url)
 #  odysseus design ...   Cloud Design System (build·apply·styleguide)
 #  odysseus vault ...    Agenten-Vault
 #  odysseus skills ...   Skill-Import (Repo/YouTube-Link → Skills+Workflows)
@@ -35,6 +36,7 @@ case "${1:-terminal}" in
     skills) shift; "$S/skill-import.sh" "$@";;
     gitviz) shift; "$S/gitviz.sh" "$@";;
     uri)    shift; "$S/uri.sh" "$@";;
+    nouz)   shift; "$S/nouz-export.sh" "$@";;
     chat)   shift
             # 'chat' ist jetzt der Chat MIT Werkzeugen. Die alten
             # A2A-Unterbefehle bleiben, wo sie waren.
@@ -60,6 +62,6 @@ case "${1:-terminal}" in
                     --session odysseus \
                     --new-session-with-layout "$ODYSSEUS_DIR/layouts/odysseus.kdl"
         ;;
-    -h|--help|help) sed -n '5,16p' "$0";;
-    *) sed -n '5,16p' "$0";;
+    -h|--help|help) sed -n '5,17p' "$0";;
+    *) sed -n '5,17p' "$0";;
 esac

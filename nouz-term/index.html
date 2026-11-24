@@ -407,7 +407,7 @@ function readData() {
   var base = {}, ext = (window.NOUZ_DATA && typeof window.NOUZ_DATA === 'object') ? window.NOUZ_DATA : {};
   try { base = JSON.parse($('#nouz-data').textContent); } catch (e) { /* Datenblock defekt: leer starten */ }
   var d = Object.assign({}, base, ext);
-  ['stack', 'agents', 'files', 'worktrees', 'knowledge', 'index', 'boot'].forEach(function (k) { if (!Array.isArray(d[k])) d[k] = []; });
+  ['stack', 'agents', 'files', 'worktrees', 'knowledge', 'services', 'index', 'boot'].forEach(function (k) { if (!Array.isArray(d[k])) d[k] = []; });
   d.meta = Object.assign({ mode: 'demo' }, d.meta || {});
   d.graph = (d.graph && Array.isArray(d.graph.nodes)) ? d.graph : { nodes: [] };
   var stack = [];
@@ -549,7 +549,7 @@ function renderKnow() {
   if (!D.knowledge.length) box.replaceChildren(h('div', { class: 'tm-empty tm-miss' }, MISSING));
 }
 function renderServices() {
-  var rows = D.stack.map(function (s) { return { id: s.id, name: s.name, detail: s.detail, state: s.state, code: '' }; }).concat(D.knowledge), t = $('#svc');
+  var rows = D.stack.map(function (s) { return { id: s.id, name: s.name, detail: s.detail, state: s.state, code: '' }; }).concat(D.knowledge, D.services), t = $('#svc');
   t.replaceChildren(h('thead', null, h('tr', null, ['Dienst', 'Status', 'Detail', 'Kürzel'].map(function (c) { return h('th', { scope: 'col' }, c); }))),
     h('tbody', null, rows.map(function (r) {
       var g = glyphOf(r.state);
@@ -668,11 +668,11 @@ var CMD = {
   herd: function () { herdRows().forEach(function (r) { var g = glyphOf(r.a.state); say([['m', r.pre], [g[2], g[0] + ' '], ['', r.a.name + '  '], [g[2], g[1]]]); }); setView('herd'); },
   knowledge: function () { D.knowledge.forEach(function (k) { var g = glyphOf(k.state); say([[g[2], g[0] + ' '], ['', str(k.name) + '  '], ['m', k.detail ? str(k.detail) : MISSING]]); }); setView('knowledge'); },
   files: function () { say([['i', '[superfile] '], ['', S.file || MISSING]]); setView('files'); },
-  services: function () { D.stack.concat(D.knowledge).forEach(function (s) { var g = glyphOf(s.state); say([[g[2], g[0] + ' '], ['', str(s.name) + '  '], ['m', g[1]]]); }); setView('services'); },
+  services: function () { D.stack.concat(D.knowledge, D.services).forEach(function (s) { var g = glyphOf(s.state); say([[g[2], g[0] + ' '], ['', str(s.name) + '  '], ['m', g[1]]]); }); setView('services'); },
   graph: function () { setView('knowledge'); },
   status: function () {
     say([['m', 'Modus: '], ['', D.meta.mode === 'live' ? 'LIVE (Export ' + str(D.meta.generated || MISSING) + ')' : 'DEMO-DATEN']]);
-    say([['m', 'Agenten: '], ['', D.agents.length + ' (' + activeCount() + ' aktiv)  ·  Dateien: ' + D.files.length + '  ·  Dienste: ' + (D.stack.length + D.knowledge.length)]]);
+    say([['m', 'Agenten: '], ['', D.agents.length + ' (' + activeCount() + ' aktiv)  ·  Dateien: ' + D.files.length + '  ·  Dienste: ' + (D.stack.length + D.knowledge.length + D.services.length)]]);
   },
   theme: function (arg) {
     if (!arg) { say([['m', 'Themes: ' + THEMES.map(function (t) { return t[0]; }).join(' · ')]]); return; }
@@ -808,6 +808,7 @@ function start() {
   var f0 = findFile(D.meta.file) || leaves()[0] || D.files[0]; S.file = f0 ? f0.path : null;
   S.agent = (findAgent(D.meta.focus) || D.agents[0] || {}).id || null;
   if (S.agent) { logOf(S.agent).push.apply(logOf(S.agent), D.boot.filter(Array.isArray)); }
+  D.agents.forEach(function (a) { if (Array.isArray(a.log)) logOf(a.id).push.apply(logOf(a.id), a.log.filter(Array.isArray)); });
   renderTree(); renderHerd(); renderKnow(); renderServices(); renderStatus(); renderCrumb(); renderSuggest(); renderLog(); drawGraphs();
   var t = recall('dkz-theme'); setTheme(THEMES.some(function (x) { return x[0] === t; }) ? t : 'master');
   setView('herd'); watchGraphs();
