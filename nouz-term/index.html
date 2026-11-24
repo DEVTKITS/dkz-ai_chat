@@ -1,0 +1,853 @@
+<!doctype html>
+<html lang="de" data-theme="master">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>DkZ NOUZ-Term — Ghostty / Zellij / Herdr</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=JetBrains+Mono:wght@400;600;700&display=swap">
+<style>
+/* Tokens und Bausteine stammen aus dkz-terminal-style/ und werden von build.py eingefügt — nicht von Hand ändern. */
+/* @dkz:tokens:begin */
+/* DkZ Terminal Style — generated from tokens.json */
+:root,[data-theme="master"]{--bg:#050507;--bg-mid:#07070a;--bg-deep:#030304;--bg-glow:#17111a;--panel-top:rgba(14,14,20,0.92);--panel-bottom:rgba(7,7,11,0.94);--bg-card:#0b0b10;--bg-elevated:#0f1016;--bg-input:#08090d;--bg-sunken:#0a0a0f;--bg-hover:#151722;--bg-overlay:#0b0c11;--border:#242632;--border-strong:#2c2e3a;--border-overlay:#353744;--border-soft:#191b24;--border-dash:#1d1f29;--text:#ececf2;--text-strong:#ffffff;--text-dim:#b6bac8;--text-muted:#8f94a4;--text-faint:#7f8798;--accent:#fa1e4e;--accent-hover:#ff3366;--on-accent:#050507;--tab-on-bg:#13090d;--tab-on-bd:#5a2231;--tab-on-fg:#ffffff;--chip-accent-bg:#17090e;--chip-accent-bd:#4d2330;--chip-accent-fg:#ff8ca8;--chip-agent-bg:rgba(18,12,28,0.55);--chip-agent-bd:rgba(153,102,255,0.4);--chip-agent-fg:#bda7ff;--green:#00ff88;--amber:#ffcc66;--cyan:#36d7ff;--lila:#9966ff;--red:#ff3b5c;--glass:rgba(11,11,16,0.86);--scrim:rgba(0,0,0,0.55);--grid-line:rgba(255,255,255,0.018);--ok:var(--green);--warn:var(--amber);--info:var(--cyan);--agent:var(--lila);--err:var(--red);--focus:var(--accent);--shadow-pane:0 18px 60px rgba(0,0,0,0.34);--shadow-pop:0 30px 120px rgba(0,0,0,1);--glow-dot:0 0 12px rgba(0,255,136,0.9)}
+[data-theme="light"]{--bg:#f6f6f7;--bg-mid:#f1f1f4;--bg-deep:#e9eaee;--bg-glow:#ffffff;--panel-top:rgba(255,255,255,0.96);--panel-bottom:rgba(250,250,252,0.96);--bg-card:#ffffff;--bg-elevated:#f1f1f4;--bg-input:#ffffff;--bg-sunken:#eceef2;--bg-hover:#e6e8ee;--bg-overlay:#ffffff;--border:rgba(14,14,16,0.14);--border-strong:rgba(14,14,16,0.28);--border-overlay:rgba(14,14,16,0.3);--border-soft:rgba(14,14,16,0.08);--border-dash:rgba(14,14,16,0.12);--text:#0e0e10;--text-strong:#000000;--text-dim:#2b2d36;--text-muted:#5b5f6e;--text-faint:#666b7a;--accent:#c8103a;--accent-hover:#a50d30;--on-accent:#ffffff;--tab-on-bg:#fdeaf0;--tab-on-bd:#e9a3b6;--tab-on-fg:#7a0a26;--chip-accent-bg:#fdeaf0;--chip-accent-bd:#f1a9bd;--chip-accent-fg:#a30d31;--chip-agent-bg:#efeaff;--chip-agent-bd:#c9bcf3;--chip-agent-fg:#4a30ad;--green:#00704a;--amber:#7a5c00;--cyan:#1d628f;--lila:#5b3fc4;--red:#c8103a;--glass:rgba(255,255,255,0.88);--scrim:rgba(14,14,16,0.35);--grid-line:rgba(14,14,16,0.035);--shadow-pane:0 10px 30px rgba(14,14,16,0.12);--shadow-pop:0 30px 90px rgba(14,14,16,0.28);--glow-dot:none}
+[data-theme="contrast"]{--bg:#000000;--bg-mid:#000000;--bg-deep:#000000;--bg-glow:#000000;--panel-top:#000000;--panel-bottom:#000000;--bg-card:#000000;--bg-elevated:#000000;--bg-input:#000000;--bg-sunken:#000000;--bg-hover:rgba(0,255,136,0.14);--bg-overlay:#000000;--border:#00ff88;--border-strong:#00ff88;--border-overlay:#00ff88;--border-soft:#00ff88;--border-dash:#00ff88;--text:#00ff88;--text-strong:#00ff88;--text-dim:#00ff88;--text-muted:rgba(0,255,136,0.78);--text-faint:rgba(0,255,136,0.62);--accent:#00ff88;--accent-hover:#00ff88;--on-accent:#000000;--tab-on-bg:#00ff88;--tab-on-bd:#00ff88;--tab-on-fg:#000000;--chip-accent-bg:#000000;--chip-accent-bd:#00ff88;--chip-accent-fg:#00ff88;--chip-agent-bg:#000000;--chip-agent-bd:#00ff88;--chip-agent-fg:#00ff88;--green:#00ff88;--amber:#00ff88;--cyan:#00ff88;--lila:#00ff88;--red:#00ff88;--glass:rgba(0,0,0,0.92);--scrim:rgba(0,0,0,0.8);--grid-line:rgba(0,255,136,0.06);--shadow-pane:0 0 20px rgba(0,255,136,0.2);--shadow-pop:0 0 40px rgba(0,255,136,0.25);--glow-dot:0 0 12px rgba(0,255,136,0.9)}
+[data-theme="control"]{--bg:#050507;--bg-mid:#07070a;--bg-deep:#030304;--bg-glow:#1a0f14;--panel-top:rgba(14,14,20,0.92);--panel-bottom:rgba(7,7,11,0.94);--bg-card:#0b0b10;--bg-elevated:#0f1016;--bg-input:#08090d;--bg-sunken:#0a0a0f;--bg-hover:#151722;--bg-overlay:#0b0c11;--border:rgba(250,30,78,0.3);--border-strong:rgba(250,30,78,0.5);--border-overlay:rgba(250,30,78,0.55);--border-soft:rgba(250,30,78,0.2);--border-dash:rgba(250,30,78,0.2);--text:#ececf2;--text-strong:#ffffff;--text-dim:#b6bac8;--text-muted:#8f94a4;--text-faint:#7f8798;--accent:#fa1e4e;--accent-hover:#ff3366;--on-accent:#050507;--tab-on-bg:#13090d;--tab-on-bd:#5a2231;--tab-on-fg:#ffffff;--chip-accent-bg:#17090e;--chip-accent-bd:#4d2330;--chip-accent-fg:#ff8ca8;--chip-agent-bg:rgba(18,12,28,0.55);--chip-agent-bd:rgba(153,102,255,0.4);--chip-agent-fg:#bda7ff;--green:#00ff88;--amber:#ffcc66;--cyan:#36d7ff;--lila:#9966ff;--red:#ff3b5c;--glass:rgba(11,11,16,0.86);--scrim:rgba(0,0,0,0.55);--grid-line:rgba(255,255,255,0.018);--shadow-pane:0 18px 60px rgba(0,0,0,0.34);--shadow-pop:0 30px 120px rgba(0,0,0,1);--glow-dot:0 0 12px rgba(0,255,136,0.9)}
+[data-theme="content"]{--bg:#0c0a12;--bg-mid:#0f0c16;--bg-deep:#08060d;--bg-glow:#1d1530;--panel-top:rgba(21,18,29,0.94);--panel-bottom:rgba(16,13,23,0.96);--bg-card:#15121d;--bg-elevated:#1b1726;--bg-input:#100e17;--bg-sunken:#100d17;--bg-hover:#221d30;--bg-overlay:#15121d;--border:rgba(157,123,255,0.18);--border-strong:rgba(157,123,255,0.34);--border-overlay:rgba(157,123,255,0.42);--border-soft:rgba(157,123,255,0.12);--border-dash:rgba(157,123,255,0.14);--text:#f3f0fa;--text-strong:#ffffff;--text-dim:#cfc9e0;--text-muted:#a59fb8;--text-faint:#8d86a3;--accent:#ff3366;--accent-hover:#ff6688;--on-accent:#050507;--tab-on-bg:#1c0a14;--tab-on-bd:#6a2640;--tab-on-fg:#ffffff;--chip-accent-bg:#1f0c15;--chip-accent-bd:#5c2538;--chip-accent-fg:#ff9db6;--chip-agent-bg:rgba(40,28,70,0.55);--chip-agent-bd:rgba(157,123,255,0.5);--chip-agent-fg:#d4c6ff;--green:#00d084;--amber:#e8c547;--cyan:#55acee;--lila:#9d7bff;--red:#ff3b5c;--glass:rgba(21,18,29,0.86);--scrim:rgba(12,10,18,0.65);--grid-line:rgba(157,123,255,0.03);--shadow-pane:0 18px 60px rgba(0,0,0,0.4);--shadow-pop:0 30px 120px rgba(0,0,0,0.9);--glow-dot:0 0 12px rgba(0,208,132,0.8)}
+:root{--space-xs:4px;--space-sm:8px;--space-md:12px;--space-lg:16px;--space-xl:24px;--space-2xl:32px;--radius:13px;--radius-sm:8px;--radius-pill:999px;--font-main:"Inter", system-ui, -apple-system, "Segoe UI", sans-serif;--font-mono:"JetBrains Mono", ui-monospace, Consolas, monospace;--font-display:"Archivo", "Inter", system-ui, sans-serif}
+/* @dkz:tokens:end */
+/* @dkz:terminal:begin */
+/* DkZ Terminal Style — Bausteine (tm-*). Nutzt ausschließlich Tokens aus tokens.css, kein Hex.
+   Theme-Struktur (Radius, Schrift, Fase, Kerbe) steht unten; Farben stehen in tokens.json. */
+:root{--notch:block}
+[data-theme="contrast"]{--radius:0px;--radius-sm:0px;--radius-pill:0px;--notch:none;--font-main:var(--font-mono)}
+[data-theme="control"]{--radius:0px;--radius-sm:0px;--notch:none;--font-main:"Archivo","Inter",system-ui,sans-serif}
+[data-theme="content"]{--radius:18px;--radius-sm:12px;--radius-pill:50px;--font-main:"Syne","Inter",system-ui,sans-serif;--font-mono:"Space Mono",ui-monospace,Consolas,monospace}
+
+*,*::before,*::after{box-sizing:border-box}
+.tm-page{margin:0;min-height:100dvh;color:var(--text);font:400 14px/1.55 var(--font-main);-webkit-font-smoothing:antialiased;
+  background:radial-gradient(circle at 50% -10%,var(--bg-glow) 0,var(--bg-mid) 42%,var(--bg-deep) 100%) var(--bg)}
+.tm-page::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;
+  background-image:linear-gradient(var(--grid-line) 1px,transparent 1px),linear-gradient(90deg,var(--grid-line) 1px,transparent 1px);background-size:24px 24px}
+.tm-page :focus-visible{outline:2px solid var(--focus);outline-offset:2px}
+.tm-page button{font:inherit;color:inherit}
+.tm-skip{position:absolute;left:-999px;top:8px;z-index:30;background:var(--accent);color:var(--on-accent);padding:8px 12px;border-radius:var(--radius-sm)}
+.tm-skip:focus{left:8px}
+.tm-sr{position:absolute;width:1px;height:1px;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+/* Bühne für Einbettungen und Vorschauen: gleiche Grundwerte wie die Seite, aber ohne Vollbild-Höhe. */
+.tm-stage{padding:var(--space-lg);background:var(--bg);color:var(--text);font:400 14px/1.55 var(--font-main)}
+
+/* ── Rahmen der Seite ─────────────────────────────────────────────── */
+.tm-app{position:relative;z-index:1;min-height:100dvh;display:flex;flex-direction:column;gap:var(--space-sm);
+  padding:var(--space-md) max(var(--space-lg),env(safe-area-inset-right)) var(--space-md) max(var(--space-lg),env(safe-area-inset-left))}
+.tm-top,.tm-status{display:flex;flex-wrap:wrap;align-items:center;gap:var(--space-sm) var(--space-lg);padding:var(--space-sm) var(--space-lg);
+  background:var(--glass);border:1px solid var(--border);border-radius:var(--radius);backdrop-filter:blur(8px);box-shadow:var(--shadow-pane)}
+.tm-top{min-height:48px}
+.tm-brand{font:800 14px/1 var(--font-main);letter-spacing:.08em}
+.tm-brand b{color:var(--accent)}
+.tm-tabs{display:flex;flex-wrap:wrap;gap:var(--space-sm)}
+.tm-tab{min-height:36px;padding:0 12px;border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--bg-sunken);
+  color:var(--text-muted);font:600 12px/1 var(--font-mono);cursor:pointer}
+.tm-tab:hover{color:var(--text-strong)}
+.tm-tab[aria-selected="true"]{color:var(--tab-on-fg);background:var(--tab-on-bg);border-color:var(--tab-on-bd);
+  box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--accent) 25%,transparent)}
+.tm-count{color:var(--ok)}
+.tm-meta{margin-left:auto;display:flex;flex-wrap:wrap;align-items:center;gap:var(--space-sm) var(--space-md);font:12px var(--font-mono);color:var(--text-muted)}
+.tm-dot{display:inline-block;width:7px;height:7px;margin-right:6px;border-radius:var(--radius-pill);background:var(--ok);box-shadow:var(--glow-dot)}
+.tm-mode{padding:3px 8px;border:1px solid var(--chip-accent-bd);border-radius:var(--radius-pill);background:var(--chip-accent-bg);color:var(--chip-accent-fg);font-weight:700;letter-spacing:.08em}
+.tm-themes{display:flex;gap:var(--space-sm)}
+.tm-theme{width:28px;height:28px;padding:0;border:1px solid var(--border-strong);border-radius:var(--radius-pill);cursor:pointer;
+  background:linear-gradient(135deg,var(--bg) 50%,var(--accent) 50%)}
+.tm-theme[aria-pressed="true"]{outline:2px solid var(--focus);outline-offset:2px}
+
+/* ── Arbeitsfläche: Raster je Ansicht (data-view) ─────────────────── */
+.tm-workspace{flex:1;min-height:0;display:grid;gap:var(--space-sm);grid-template-columns:minmax(0,1fr)}
+.tm-a-files{grid-area:files}.tm-a-preview{grid-area:preview}.tm-a-term{grid-area:term}.tm-a-input{grid-area:input}
+.tm-a-side{grid-area:side}.tm-a-graph{grid-area:graph}.tm-a-services{grid-area:services}
+.tm-workspace[data-view="herd"]{grid-template-areas:"term" "input" "side" "files"}
+.tm-workspace[data-view="files"]{grid-template-areas:"files" "preview" "term" "input"}
+.tm-workspace[data-view="knowledge"]{grid-template-areas:"graph" "side" "term" "input"}
+.tm-workspace[data-view="services"]{grid-template-areas:"services" "term" "input"}
+@media (min-width:640px){
+  .tm-workspace{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
+  .tm-workspace[data-view="herd"]{grid-template-areas:"term term" "input input" "files side"}
+  .tm-workspace[data-view="files"]{grid-template-areas:"files preview" "term term" "input input"}
+  .tm-workspace[data-view="knowledge"]{grid-template-areas:"graph graph" "side side" "term term" "input input"}
+  .tm-workspace[data-view="services"]{grid-template-areas:"services services" "term term" "input input"}
+}
+@media (min-width:1050px){
+  .tm-app{height:100dvh;min-height:0}
+  .tm-workspace[data-view="herd"]{grid-template-columns:290px minmax(0,1fr) 300px;grid-template-rows:minmax(0,1fr) auto;grid-template-areas:"files term side" "files input side"}
+  .tm-workspace[data-view="files"]{grid-template-columns:340px minmax(0,1fr);grid-template-rows:minmax(0,1fr) 168px auto;grid-template-areas:"files preview" "term term" "input input"}
+  .tm-workspace[data-view="knowledge"]{grid-template-columns:minmax(0,1fr) 320px;grid-template-rows:minmax(0,1fr) 168px auto;grid-template-areas:"graph side" "term term" "input input"}
+  .tm-workspace[data-view="services"]{grid-template-columns:minmax(0,1fr);grid-template-rows:minmax(0,1fr) 168px auto;grid-template-areas:"services" "term" "input"}
+}
+
+/* ── Panel ────────────────────────────────────────────────────────── */
+.tm-panel{position:relative;min-width:0;min-height:0;display:flex;flex-direction:column;overflow:hidden;
+  background:linear-gradient(180deg,var(--panel-top),var(--panel-bottom));border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow-pane)}
+.tm-panel[hidden]{display:none}
+.tm-panel::before{content:"";position:absolute;left:50%;top:-1px;z-index:2;width:76px;height:9px;transform:translateX(-50%);
+  border:1px solid var(--border);border-top:0;border-radius:0 0 12px 12px;background:var(--bg-input);display:var(--notch)}
+.tm-title{display:flex;align-items:center;gap:var(--space-sm);flex:none;min-height:38px;margin:0;padding:0 var(--space-md);border-bottom:1px solid var(--border-soft);
+  font:700 11px/1 var(--font-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--text-dim)}
+.tm-tag{margin-left:auto;color:var(--ok)}
+.tm-scroll{flex:1;min-height:0;overflow:auto}
+@media (max-width:1049px){
+  .tm-a-files .tm-scroll,.tm-a-side .tm-scroll,.tm-a-preview .tm-scroll{max-height:42dvh}
+  .tm-a-graph .tm-scroll,.tm-a-services .tm-scroll{max-height:60dvh}
+}
+
+/* ── Dateibaum + Vorschau ─────────────────────────────────────────── */
+.tm-tree{padding:var(--space-sm);font:12px/1.7 var(--font-mono)}
+.tm-sub{padding:var(--space-sm) var(--space-sm) var(--space-xs);color:var(--text-muted);font:700 11px var(--font-mono);letter-spacing:.08em}
+.tm-leaf,.tm-agent{display:flex;align-items:baseline;gap:6px;width:100%;margin:0;padding:4px 8px 4px calc(8px + var(--d,0) * 14px);border:0;border-radius:6px;
+  background:none;color:var(--text-dim);font:inherit;text-align:left;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;cursor:pointer}
+.tm-leaf:hover,.tm-agent:hover,.tm-leaf[aria-current="true"],.tm-agent[aria-current="true"]{background:var(--bg-hover);color:var(--text-strong)}
+.tm-leaf[aria-current="true"]{box-shadow:inset 2px 0 var(--accent)}
+.tm-agent[aria-current="true"]{box-shadow:inset 2px 0 var(--agent)}
+.tm-glyph{flex:none;width:1.1em;color:var(--text-muted)}
+.tm-name{overflow:hidden;text-overflow:ellipsis}
+@media (pointer:coarse){.tm-leaf,.tm-agent{padding-block:9px}.tm-tab{min-height:44px}}
+.tm-dl{margin:0;padding:var(--space-md);display:grid;grid-template-columns:max-content 1fr;gap:var(--space-sm) var(--space-lg);font:12px/1.6 var(--font-mono)}
+.tm-dl dt{color:var(--text-muted)}
+.tm-dl dd{margin:0;color:var(--text);overflow-wrap:anywhere}
+.tm-miss{color:var(--text-faint)}
+
+/* ── Terminal ─────────────────────────────────────────────────────── */
+.tm-term{flex:1;min-height:0}
+.tm-term-head{display:flex;flex-wrap:wrap;align-items:center;gap:var(--space-sm);flex:none;padding:var(--space-sm) var(--space-md);border-bottom:1px solid var(--border-soft);font:12px var(--font-mono)}
+.tm-crumb{color:var(--text-dim)}.tm-crumb span{color:var(--text-muted)}
+.tm-badge{margin-left:auto;padding:4px 8px;border:1px solid var(--chip-accent-bd);border-radius:var(--radius-pill);background:var(--chip-accent-bg);color:var(--chip-accent-fg);font:600 11px var(--font-mono)}
+.tm-term-body{position:relative;flex:1;min-height:0;overflow:auto;padding:var(--space-md);font:13px/1.55 var(--font-mono);
+  background:radial-gradient(circle at 70% 20%,color-mix(in srgb,var(--agent) 8%,transparent),transparent 28%),radial-gradient(circle at 30% 80%,color-mix(in srgb,var(--accent) 6%,transparent),transparent 26%)}
+@media (max-width:1049px){.tm-a-term .tm-term-body{min-height:200px;max-height:46dvh}}
+.tm-workspace:not([data-view="herd"]) .tm-a-term .tm-term-body{max-height:168px;min-height:96px}
+.tm-bg-graph{position:absolute;inset:0;width:100%;height:100%;opacity:.28;pointer-events:none}
+.tm-log{position:relative;z-index:1;white-space:pre-wrap;overflow-wrap:anywhere}
+.tm-log>div{min-height:1.55em}
+.tm-c-ok{color:var(--ok)}.tm-c-warn{color:var(--warn)}.tm-c-info{color:var(--info)}.tm-c-agent{color:var(--agent)}
+.tm-c-err{color:var(--err)}.tm-c-muted{color:var(--text-muted)}.tm-c-strong{color:var(--text-strong)}
+
+/* ── Herd + Wissen ────────────────────────────────────────────────── */
+.tm-herd{padding:var(--space-sm) 10px;font:12px/1.58 var(--font-mono)}
+.tm-state{margin-left:auto;padding-left:var(--space-sm);font-size:10px;white-space:nowrap}
+.tm-s-ok{color:var(--ok)}.tm-s-warn{color:var(--warn)}.tm-s-faint{color:var(--text-faint)}.tm-s-err{color:var(--err)}
+.tm-new{color:var(--accent);font-size:9px}
+.tm-workspace[data-view="knowledge"] .tm-sec-herd{display:none}
+.tm-know{padding:var(--space-sm) 11px;font:12px var(--font-mono)}
+.tm-krow{display:grid;grid-template-columns:minmax(64px,92px) minmax(0,1fr) auto;gap:var(--space-sm);width:100%;margin:0;padding:6px 0;border:0;border-bottom:1px dashed var(--border-dash);background:none;color:inherit;font:inherit;text-align:left;cursor:pointer}
+.tm-krow:hover{background:var(--bg-hover)}
+.tm-krow b{color:var(--text)}
+.tm-krow span:nth-child(2){color:var(--text-dim);overflow-wrap:anywhere}
+
+/* ── Prompt ───────────────────────────────────────────────────────── */
+.tm-input{padding:var(--space-md);flex:none}
+.tm-suggest{display:grid;grid-template-columns:76px minmax(0,1fr);gap:var(--space-sm);min-height:1.6em;margin-bottom:var(--space-sm);font:11px var(--font-mono);color:var(--text-muted)}
+.tm-suggest b{color:var(--info)}
+.tm-prompt{display:flex;align-items:center;height:44px;padding:0 var(--space-md);border:1px solid var(--border-strong);border-radius:var(--radius-sm);background:var(--bg-input);font:14px var(--font-mono)}
+.tm-prompt:focus-within{border-color:var(--focus);box-shadow:0 0 0 2px color-mix(in srgb,var(--focus) 35%,transparent)}
+.tm-p{margin-right:var(--space-sm);color:var(--accent);font-weight:800}
+.tm-cmd{flex:1;min-width:0;border:0;outline:0;background:transparent;color:var(--text-strong);font:inherit}
+.tm-cmd::placeholder{color:var(--text-muted)}
+
+/* ── Graph + Tabelle ──────────────────────────────────────────────── */
+.tm-graph{display:block;width:100%}
+.tm-graph-main{height:clamp(260px,52dvh,520px)}
+.tm-gedge{stroke:var(--chip-agent-bd);stroke-width:1;fill:none}
+.tm-gnode rect{fill:var(--chip-agent-bg);stroke:var(--chip-agent-bd)}
+.tm-gnode text{fill:var(--chip-agent-fg);font:10px var(--font-mono);text-anchor:middle;dominant-baseline:central}
+.tm-gnode.is-hit rect{stroke:var(--accent)}.tm-gnode.is-hit text{fill:var(--accent);font-weight:700}
+.tm-gnode[tabindex]{cursor:pointer}
+.tm-table{width:100%;border-collapse:collapse;font:12px var(--font-mono)}
+.tm-table th{padding:var(--space-sm) var(--space-md);background:var(--bg-elevated);border-bottom:1px solid var(--border-soft);color:var(--text-muted);font-weight:700;letter-spacing:.08em;text-align:left;text-transform:uppercase;white-space:nowrap}
+.tm-table td{padding:var(--space-sm) var(--space-md);border-bottom:1px dashed var(--border-dash);color:var(--text-dim)}
+.tm-table td:first-child{color:var(--text)}
+.tm-table tr.is-flash td{background:var(--bg-hover)}
+
+/* ── Statusleiste + Pillen ────────────────────────────────────────── */
+.tm-status{font:11px var(--font-mono)}
+.tm-pill{padding:4px 8px;border:1px solid var(--border);border-radius:var(--radius-pill);background:none;color:var(--text-dim);cursor:pointer;font:inherit}
+.tm-pill:hover{color:var(--text-strong);background:var(--bg-hover)}
+.tm-push{margin-left:auto;color:var(--text-muted)}
+.tm-ver{color:var(--text-faint)}
+
+/* ── Befehlspalette ───────────────────────────────────────────────── */
+.tm-pal{position:fixed;inset:0;z-index:20;display:none;align-items:flex-start;justify-content:center;padding:13vh var(--space-lg) var(--space-lg);background:var(--scrim)}
+.tm-pal.is-open{display:flex}
+.tm-pal-card{display:flex;flex-direction:column;width:min(720px,100%);max-height:78dvh;padding:var(--space-md);border:1px solid var(--border-overlay);border-radius:14px;background:var(--bg-overlay);box-shadow:var(--shadow-pop)}
+.tm-pal-in{width:100%;height:46px;padding:0 var(--space-md);border:1px solid var(--border-strong);border-radius:var(--radius-sm);background:var(--bg-input);color:var(--text-strong);font:14px var(--font-mono);outline:0}
+.tm-pal-in:focus{border-color:var(--focus)}
+.tm-pal-list{margin:var(--space-sm) 0 0;padding:0;list-style:none;overflow:auto}
+.tm-res{display:grid;grid-template-columns:minmax(64px,92px) minmax(0,1fr) auto;gap:var(--space-sm);padding:9px;border-radius:var(--radius-sm);color:var(--text-dim);font:12px var(--font-mono);cursor:pointer}
+.tm-res[aria-selected="true"]{background:var(--bg-hover);color:var(--text-strong)}
+.tm-res mark{background:none;color:var(--accent);font-weight:800;text-decoration:underline}
+.tm-res span:nth-child(2){overflow-wrap:anywhere}
+.tm-type{color:var(--info)}.tm-src{color:var(--text-muted);text-align:right}
+.tm-empty{padding:var(--space-md);color:var(--text-muted);font:12px var(--font-mono)}
+
+/* ── Theme-Struktur: Kontrast (invertierte Treffer), Control Room (Fase, Raster), Content (Pillen) ─ */
+[data-theme="contrast"] .tm-leaf:hover,[data-theme="contrast"] .tm-agent:hover,[data-theme="contrast"] .tm-leaf[aria-current="true"],
+[data-theme="contrast"] .tm-agent[aria-current="true"],[data-theme="contrast"] .tm-res[aria-selected="true"],[data-theme="contrast"] .tm-pill:hover{background:var(--accent);color:var(--on-accent)}
+[data-theme="contrast"] .tm-res[aria-selected="true"] mark{color:var(--on-accent)}
+/* Auf invertierten Zeilen müssen Glyphen, Status und Baumlinien die Zeilenfarbe erben, sonst sind sie grün auf grün unsichtbar. */
+[data-theme="contrast"] .tm-leaf:hover *,[data-theme="contrast"] .tm-agent:hover *,[data-theme="contrast"] .tm-leaf[aria-current="true"] *,
+[data-theme="contrast"] .tm-agent[aria-current="true"] *,[data-theme="contrast"] .tm-res[aria-selected="true"] *,[data-theme="contrast"] .tm-pill:hover *,
+[data-theme="contrast"] .tm-tab[aria-selected="true"] *{color:inherit}
+[data-theme="control"] .tm-top,[data-theme="control"] .tm-panel,[data-theme="control"] .tm-status,[data-theme="control"] .tm-pal-card{clip-path:polygon(10px 0,100% 0,100% calc(100% - 10px),calc(100% - 10px) 100%,0 100%,0 10px)}
+[data-theme="control"] .tm-brand,[data-theme="control"] .tm-tab,[data-theme="control"] .tm-title{text-transform:uppercase;font-stretch:125%}
+[data-theme="control"] .tm-panel::after{content:"";position:absolute;inset:0;z-index:2;pointer-events:none;background:repeating-linear-gradient(0deg,color-mix(in srgb,var(--text) 3%,transparent) 0 1px,transparent 1px 3px)}
+[data-theme="content"] .tm-tab,[data-theme="content"] .tm-pill,[data-theme="content"] .tm-badge,[data-theme="content"] .tm-mode{border-radius:var(--radius-pill)}
+@media (prefers-reduced-motion:reduce){.tm-page *{animation:none!important;transition:none!important}}
+/* @dkz:terminal:end */
+</style>
+</head>
+<body class="tm-page">
+<a class="tm-skip" href="#cmd">Zum Prompt springen</a>
+<noscript><p style="padding:16px">NOUZ-Term braucht JavaScript.</p></noscript>
+<div class="tm-app">
+
+  <header class="tm-top">
+    <div class="tm-brand"><b>DKZ</b> NOUZ-TERM</div>
+    <div class="tm-tabs" id="tabs" role="tablist" aria-label="Ansicht"></div>
+    <div class="tm-meta" id="meta"></div>
+    <div class="tm-themes" id="themes" role="group" aria-label="Theme"></div>
+  </header>
+
+  <main class="tm-workspace" id="workspace" role="tabpanel" data-view="herd">
+
+    <section class="tm-panel tm-a-files" id="p-files" aria-label="Dateien">
+      <h2 class="tm-title">Superfile <span class="tm-tag">SYNC</span></h2>
+      <div class="tm-scroll tm-tree" id="tree"></div>
+    </section>
+
+    <section class="tm-panel tm-a-preview" id="p-preview" aria-label="Vorschau" hidden>
+      <h2 class="tm-title">Auswahl <span class="tm-tag" id="pv-tag"></span></h2>
+      <div class="tm-scroll" id="preview"></div>
+    </section>
+
+    <section class="tm-panel tm-a-term" id="p-term" aria-label="Terminal">
+      <div class="tm-term-head">
+        <div class="tm-crumb" id="crumb"></div>
+        <div class="tm-badge" id="badge"></div>
+      </div>
+      <div class="tm-term-body" id="termbody">
+        <svg class="tm-bg-graph tm-graph" id="graph-bg" aria-hidden="true" preserveAspectRatio="xMidYMid meet"></svg>
+        <div class="tm-log" id="log" role="log" aria-live="polite" aria-label="Terminalausgabe" tabindex="0"></div>
+      </div>
+    </section>
+
+    <section class="tm-panel tm-a-input" id="p-input" aria-label="Eingabe">
+      <div class="tm-input">
+        <div class="tm-suggest" id="suggest"></div>
+        <label class="tm-prompt"><span class="tm-p" aria-hidden="true">❯</span><span class="tm-sr">Befehl</span>
+          <input class="tm-cmd" id="cmd" autocomplete="off" autocapitalize="off" spellcheck="false"
+                 placeholder="Shell · @Agent · #NOUZ · /Files · ?Navi · Ctrl+P Palette"></label>
+      </div>
+    </section>
+
+    <aside class="tm-panel tm-a-side" id="p-side" aria-label="Herd und Wissen">
+      <h2 class="tm-title">Herd / Knowledge <span class="tm-tag">LIVE</span></h2>
+      <div class="tm-scroll">
+        <div class="tm-sec-herd"><div class="tm-herd" id="herd" role="group" aria-label="Agenten"></div></div>
+        <h2 class="tm-title">Knowledge Services</h2>
+        <div class="tm-know" id="know"></div>
+      </div>
+    </aside>
+
+    <section class="tm-panel tm-a-graph" id="p-graph" aria-label="Wissensgraph" hidden>
+      <h2 class="tm-title">Wissensgraph <span class="tm-tag" id="gr-tag"></span></h2>
+      <div class="tm-scroll"><svg class="tm-graph tm-graph-main" id="graph" role="group" aria-label="Wissensgraph" preserveAspectRatio="xMidYMid meet"></svg></div>
+    </section>
+
+    <section class="tm-panel tm-a-services" id="p-services" aria-label="Dienste" hidden>
+      <h2 class="tm-title">Services <span class="tm-tag" id="sv-tag"></span></h2>
+      <div class="tm-scroll"><table class="tm-table" id="svc"></table></div>
+    </section>
+
+  </main>
+
+  <footer class="tm-status" id="status"></footer>
+</div>
+
+<div class="tm-pal" id="pal" role="dialog" aria-modal="true" aria-label="Befehlspalette">
+  <div class="tm-pal-card">
+    <input class="tm-pal-in" id="pal-in" role="combobox" aria-expanded="true" aria-controls="pal-list" aria-autocomplete="list"
+           autocomplete="off" spellcheck="false" placeholder="fzf-Palette: Dateien, Verlauf, Navi, NOUZ, Agenten, Symbole …">
+    <ul class="tm-pal-list" id="pal-list" role="listbox" aria-label="Treffer"></ul>
+  </div>
+</div>
+
+<script type="application/json" id="nouz-data">
+{
+  "meta": {"mode": "demo", "repo": "dkz-dashboard", "branch": "feature/nouz-term", "session": "dkz-system",
+           "pane": "hrd:17", "root": "architect", "focus": "rust-renderer", "file": "renderer.rs",
+           "extra": "GitNexus 3 refs · NOUZ 7 nodes", "generated": null, "version": null},
+  "stack": [
+    {"id": "ghostty", "name": "GHOSTTY", "detail": "", "state": "on"},
+    {"id": "zellij", "name": "ZELLIJ", "detail": "dkz-system", "state": "on"},
+    {"id": "herdr", "name": "HERDR", "detail": "attached", "state": "on"}
+  ],
+  "agents": [
+    {"id": "architect", "name": "Architect", "parent": null, "state": "running"},
+    {"id": "rust-core", "name": "Rust Core", "parent": "architect", "state": "running"},
+    {"id": "rust-renderer", "name": "Renderer", "parent": "rust-core", "state": "working"},
+    {"id": "knowledge", "name": "Knowledge", "parent": "architect", "state": "indexing"},
+    {"id": "qa", "name": "QA", "parent": "architect", "state": "waiting"}
+  ],
+  "files": [
+    {"name": "DEVKiTZ", "type": "dir", "depth": 0},
+    {"name": "github-hub", "type": "dir", "depth": 1},
+    {"name": "dkz-dashboard", "type": "dir", "depth": 2},
+    {"name": "modules", "type": "dir", "depth": 2},
+    {"name": "wissen-hub", "type": "dir", "depth": 2},
+    {"name": "donut-orbit.html", "type": "file", "depth": 2},
+    {"name": "renderer.rs", "type": "file", "depth": 2},
+    {"name": "Cargo.toml", "type": "file", "depth": 2}
+  ],
+  "worktrees": ["architect/main", "rust-renderer", "qa/performance"],
+  "knowledge": [
+    {"id": "atuin", "code": "A", "name": "ATUIN", "detail": "14 shells · 8 agents", "state": "ready"},
+    {"id": "gitnexus", "code": "GNX", "name": "GitNexus", "detail": "8,421 symbols", "state": "ready"},
+    {"id": "graphify", "code": "GF", "name": "Graphify", "detail": "1,836 nodes", "state": "ready"},
+    {"id": "llmwiki", "code": "LW", "name": "LLM-Wiki", "detail": "427 pages", "state": "ready"},
+    {"id": "llmstxt", "code": "LLMS", "name": "llms.txt", "detail": "wissen-hub", "state": "ready"},
+    {"id": "nouz", "code": "NOUZ", "name": "NOUZ", "detail": "2,847 nodes", "state": "ready"}
+  ],
+  "graph": {"center": "rust-renderer", "nodes": [
+    {"id": "gitnexus", "label": "GitNexus"}, {"id": "nouz", "label": "NOUZ"}, {"id": "llmwiki", "label": "LLM-Wiki"},
+    {"id": "graphify", "label": "Graphify"}, {"id": "rust-renderer", "label": "renderer"}]},
+  "index": [
+    {"type": "FILE", "text": "modules/wissen-hub/templates/donut-orbit.html", "source": "Superfile", "action": "file:donut-orbit.html"},
+    {"type": "AGENT", "text": "@rust-renderer", "source": "Herdr", "action": "agent:rust-renderer"},
+    {"type": "KNOWLEDGE", "text": "Terminal Renderer Architecture", "source": "NOUZ", "action": "query:Terminal Renderer Architecture"},
+    {"type": "SYMBOL", "text": "Renderer::update", "source": "GitNexus", "action": "query:Renderer::update"},
+    {"type": "HISTORY", "text": "cargo test renderer", "source": "Atuin", "action": "cmd:cargo test renderer"},
+    {"type": "COMMAND", "text": "cargo test --workspace", "source": "Navi", "action": "cmd:cargo test --workspace"},
+    {"type": "WIKI", "text": "Renderer Performance Decisions", "source": "LLM-Wiki", "action": "query:Renderer Performance Decisions"}
+  ],
+  "boot": [
+    [["m", "[context]"], ["", " repo=dkz-dashboard  branch=feature/nouz-term"]],
+    [["m", "[herd]"], ["", "    root=architect  agent=rust-renderer  pane=hrd:17"]],
+    [["m", "[knowledge]"], ["ok", " GNX● GF● LW● LLMS● NOUZ● ATUIN●"]],
+    [],
+    [["i", "rust-renderer@herd"], ["", " "], ["a", "~/DEVKiTZ/github-hub/dkz-dashboard"]],
+    [["", "$ cargo test renderer"]],
+    [],
+    [["", "running 6 tests"]],
+    [["", "test renderer::projection ........ "], ["ok", "ok"]],
+    [["", "test renderer::dirty_cells ....... "], ["ok", "ok"]],
+    [["", "test renderer::graph_overlay ..... "], ["ok", "ok"]],
+    [["", "test renderer::transition ........ "], ["ok", "ok"]],
+    [["", "test renderer::resize ............ "], ["ok", "ok"]],
+    [["", "test renderer::context_delta ..... "], ["ok", "ok"]],
+    [],
+    [["", "test result: "], ["ok", "ok"], ["", ". 6 passed; 0 failed"]],
+    [],
+    [["m", "[atuin]"], ["", " stored · author=herd:nouz-term/rust-renderer · task=renderer-018"]],
+    [["m", "[gitnexus]"], ["", " impact: Renderer::update → 3 callers · 0 breaking paths"]],
+    [["m", "[nouz]"], ["", " 7 related nodes · active cluster: terminal-rendering"]],
+    [],
+    [["w", "[demo]"], ["m", " Beispieldaten — nichts davon wurde hier ausgeführt."]]
+  ]
+}
+</script>
+
+<script>
+(function () {
+'use strict';
+var $ = function (s, r) { return (r || document).querySelector(s); };
+var THEMES = [['master', 'Master Neonrot'], ['light', 'Hell'], ['contrast', 'Kontrast'], ['control', 'Control Room'], ['content', 'Content']];
+var VIEWS = [['herd', 'HERD'], ['files', 'FILES'], ['knowledge', 'KNOWLEDGE'], ['services', 'SERVICES']];
+var SHOW = { herd: ['files', 'term', 'input', 'side'], files: ['files', 'preview', 'term', 'input'],
+             knowledge: ['graph', 'side', 'term', 'input'], services: ['services', 'term', 'input'] };
+var FONTS = { control: 'family=Archivo:wdth,wght@62..125,100..900', content: 'family=Syne:wght@600;800&family=Space+Mono:wght@400;700' };
+var ST = { running: ['●', 'RUNNING', 'ok'], working: ['●', 'WORKING', 'ok'], indexing: ['●', 'INDEXING', 'ok'], waiting: ['◐', 'WAITING', 'warn'],
+           done: ['○', 'DONE', 'faint'], error: ['✖', 'ERROR', 'err'], ready: ['●', 'READY', 'ok'], on: ['●', 'ON', 'ok'],
+           updating: ['◐', 'UPDATING', 'warn'], offline: ['○', 'OFFLINE', 'err'] };
+var CLS = { m: 'muted', ok: 'ok', i: 'info', a: 'agent', w: 'warn', e: 'err', s: 'strong', warn: 'warn', err: 'err', faint: 'muted' };
+var ACTIVE = { running: 1, working: 1, indexing: 1 };
+var MISSING = '— ausstehend —';
+
+// DkZ-Regel: esc() bei jedem Input vor innerHTML. Dieses Modul nutzt kein innerHTML (nur DOM-APIs);
+// die Funktion steht für Erweiterungen bereit.
+function esc(s) { var d = document.createElement('div'); d.textContent = s; return d.innerHTML; }
+function str(v) { return v == null ? '' : String(v); }
+
+// DOM-Helfer. Text geht immer als Textknoten hinein, nie als Markup.
+function h(tag, props) {
+  var e = document.createElement(tag), k, v, p, kids = Array.prototype.slice.call(arguments, 2);
+  for (k in (props || {})) {
+    v = props[k]; if (v == null || v === false) continue;
+    if (k === 'class') e.className = v;
+    else if (k === 'style') for (p in v) e.style.setProperty(p, v[p]);
+    else if (k.slice(0, 2) === 'on') e.addEventListener(k.slice(2), v);
+    else e.setAttribute(k, v === true ? '' : String(v));
+  }
+  kids.flat(2).forEach(function (c) { if (c != null && c !== false) e.append(c); });
+  return e;
+}
+function sv(tag, props) {
+  var e = document.createElementNS('http://www.w3.org/2000/svg', tag), k, kids = Array.prototype.slice.call(arguments, 2);
+  for (k in (props || {})) if (props[k] != null) e.setAttribute(k, String(props[k]));
+  kids.flat(2).forEach(function (c) { if (c != null) e.append(c); });
+  return e;
+}
+function store(k, v) { try { localStorage.setItem(k, v); } catch (e) { /* Privatmodus: egal */ } }
+function recall(k) { try { return localStorage.getItem(k); } catch (e) { return null; } }
+function shq(s) { return "'" + s.replace(/'/g, "'\\''") + "'"; }
+function glyphOf(state) { return ST[state] || ['○', MISSING, 'faint']; }
+
+// ── Daten ───────────────────────────────────────────────────────────
+var D, S = { view: 'herd', agent: null, file: null, hist: [], hi: 0, logs: {}, unread: {}, open: {}, palSel: 0, palItems: [], palShown: [], prev: null };
+
+function readData() {
+  var base = {}, ext = (window.NOUZ_DATA && typeof window.NOUZ_DATA === 'object') ? window.NOUZ_DATA : {};
+  try { base = JSON.parse($('#nouz-data').textContent); } catch (e) { /* Datenblock defekt: leer starten */ }
+  var d = Object.assign({}, base, ext);
+  ['stack', 'agents', 'files', 'worktrees', 'knowledge', 'index', 'boot'].forEach(function (k) { if (!Array.isArray(d[k])) d[k] = []; });
+  d.meta = Object.assign({ mode: 'demo' }, d.meta || {});
+  d.graph = (d.graph && Array.isArray(d.graph.nodes)) ? d.graph : { nodes: [] };
+  var stack = [];
+  d.files.forEach(function (f) { var dp = Math.max(0, f.depth | 0); stack.length = dp; stack[dp] = str(f.name); f.depth = dp; f.path = stack.join('/'); f.type = f.type === 'dir' ? 'dir' : 'file'; });
+  d.agents.forEach(function (a) { a.id = str(a.id); a.name = str(a.name || a.id); });
+  return d;
+}
+function leaves() { return D.files.filter(function (f) { return f.type === 'file'; }); }
+function findFile(q) {
+  q = str(q).toLowerCase(); if (!q) return null;
+  var L = D.files, m = function (fn) { return L.filter(fn)[0] || null; };
+  return m(function (f) { return f.path.toLowerCase() === q; }) || m(function (f) { return f.name.toLowerCase() === q; }) ||
+         m(function (f) { return f.path.toLowerCase().slice(-q.length) === q; }) || m(function (f) { return f.path.toLowerCase().indexOf(q) >= 0; });
+}
+function findAgent(q) {
+  q = str(q).toLowerCase().replace(/^@/, ''); if (!q) return null;
+  var A = D.agents; return A.filter(function (a) { return a.id.toLowerCase() === q || a.name.toLowerCase() === q; })[0] ||
+    A.filter(function (a) { return a.id.toLowerCase().indexOf(q) === 0; })[0] || null;
+}
+function activeCount() { return D.agents.filter(function (a) { return ACTIVE[a.state]; }).length; }
+
+// ── Terminal-Ausgabe (je Agent ein eigener Strom) ───────────────────
+function logOf(id) { return S.logs[id] || (S.logs[id] = []); }
+function lineEl(segs) {
+  return h('div', null, segs.map(function (s) { return h('span', { class: s[0] ? 'tm-c-' + CLS[s[0]] : null }, str(s[1])); }));
+}
+function say(segs, agent) {
+  var id = agent || S.agent || '_', L = logOf(id);
+  if (!Array.isArray(segs)) segs = [['', str(segs)]];
+  L.push(segs); if (L.length > 400) L.shift();
+  if (id === (S.agent || '_')) {
+    var log = $('#log'); log.append(lineEl(segs));
+    while (log.childElementCount > 400) log.firstElementChild.remove();
+    var b = $('#termbody'); b.scrollTop = b.scrollHeight;
+  } else { S.unread[id] = 1; renderHerd(); }
+}
+function renderLog() {
+  var log = $('#log'); log.replaceChildren.apply(log, logOf(S.agent || '_').map(lineEl));
+  var b = $('#termbody'); b.scrollTop = b.scrollHeight;
+}
+function keep(box, fn) {
+  var a = document.activeElement, key = a && box.contains(a) ? a.getAttribute('data-k') : null;
+  fn();
+  if (key) { var n = box.querySelector('[data-k="' + key.replace(/"/g, '\\"') + '"]'); if (n) n.focus(); }
+}
+
+// ── Ansichten ───────────────────────────────────────────────────────
+function renderMeta() {
+  var m = $('#meta'), live = D.meta.mode === 'live';
+  m.replaceChildren.apply(m, D.stack.map(function (s, i) {
+    var g = glyphOf(s.state), name = str(s.name) + (s.detail ? ': ' + str(s.detail) : '');
+    return h('span', null, i === 0 ? h('i', { class: 'tm-dot', 'aria-hidden': 'true' }) : null, g[0] === '●' ? name : g[0] + ' ' + name);
+  }).concat([h('span', { class: 'tm-mode' }, live ? 'LIVE · ' + str(D.meta.generated || MISSING) : 'DEMO-DATEN')]));
+  var n = activeCount(), c = $('#count'); if (c) { c.textContent = '●' + n; c.setAttribute('aria-label', n + ' aktiv'); }
+  $('#badge').textContent = 'HERD · ' + n + ' ACTIVE';
+}
+function renderCrumb() {
+  var parts = D.stack.map(function (s) { return str(s.name).toLowerCase(); }).concat(['nouz-term']);
+  if (S.agent) parts.push(S.agent);
+  var el = $('#crumb'), kids = [];
+  parts.forEach(function (p, i) { if (i) kids.push(h('span', null, ' › ')); kids.push(p); });
+  el.replaceChildren.apply(el, kids);
+}
+function renderSuggest(msg) {
+  var el = $('#suggest'), f = findFile(S.file);
+  var ctx = [f ? f.name : MISSING, 'Herd/' + (S.agent || MISSING)].concat(D.meta.extra ? [str(D.meta.extra)] : []).join(' · ');
+  el.replaceChildren(h('b', null, msg ? 'TAB' : 'CONTEXT'), h('span', null, msg || ctx));
+}
+function renderThemes() {
+  var cur = document.documentElement.getAttribute('data-theme'), box = $('#themes');
+  box.replaceChildren.apply(box, THEMES.map(function (t) {
+    return h('button', { class: 'tm-theme', 'data-theme': t[0], type: 'button', title: t[1], 'aria-label': 'Theme ' + t[1], 'aria-pressed': String(t[0] === cur), onclick: function () { setTheme(t[0]); } });
+  }));
+}
+function renderTree() {
+  var box = $('#tree'), kids = [], skip = null;
+  D.files.forEach(function (f) {
+    if (skip !== null && f.depth > skip) return; skip = null;
+    var isDir = f.type === 'dir', open = S.open[f.path];
+    if (isDir && !open) skip = f.depth;
+    kids.push(h('button', { class: 'tm-leaf', type: 'button', 'data-k': f.path, style: { '--d': f.depth }, 'aria-current': f.path === S.file ? 'true' : null,
+      'aria-expanded': isDir ? String(!!open) : null, onclick: function () { if (isDir) S.open[f.path] = !S.open[f.path]; selectFile(f.path, true); } },
+      h('span', { class: 'tm-glyph', 'aria-hidden': 'true' }, isDir ? (open ? '▾' : '▸') : '▫'), h('span', { class: 'tm-name' }, f.name)));
+  });
+  if (D.worktrees.length) {
+    kids.push(h('div', { class: 'tm-sub' }, 'WORKTREES'));
+    D.worktrees.forEach(function (w) { kids.push(h('button', { class: 'tm-leaf', type: 'button', style: { '--d': 1 }, onclick: function () { say([['m', '[superfile]'], ['', ' worktree → ' + str(w)]]); } }, h('span', { class: 'tm-glyph', 'aria-hidden': 'true' }, '⑂'), h('span', { class: 'tm-name' }, str(w)))); });
+  }
+  if (!D.files.length) kids.push(h('div', { class: 'tm-empty tm-miss' }, MISSING));
+  keep(box, function () { box.replaceChildren.apply(box, kids); });
+}
+function renderPreview() {
+  var f = findFile(S.file), box = $('#preview'), rows = [];
+  var add = function (k, v) { rows.push(h('dt', null, k), h('dd', v == null || v === '' ? { class: 'tm-miss' } : null, v == null || v === '' ? MISSING : str(v))); };
+  if (!f) { box.replaceChildren(h('div', { class: 'tm-empty' }, 'Nichts ausgewählt.')); return; }
+  add('Pfad', f.path); add('Typ', f.type === 'dir' ? 'Verzeichnis' : 'Datei');
+  if (f.type === 'dir') {
+    var kids = D.files.filter(function (x) { return x.path.indexOf(f.path + '/') === 0 && x.depth === f.depth + 1; });
+    add('Einträge', kids.length ? kids.length + ': ' + kids.map(function (x) { return x.name; }).join(', ') : null);
+  } else { add('Letzter Commit', f.commit); add('Geändert', f.date); add('Größe', f.size); }
+  add('Branch', D.meta.branch); add('Repository', D.meta.repo);
+  box.replaceChildren(h('dl', { class: 'tm-dl' }, rows));
+  $('#pv-tag').textContent = f.type === 'dir' ? 'DIR' : 'FILE';
+}
+function herdRows() {
+  var rows = [], seen = {};
+  (function walk(pid, trail) {
+    var kids = D.agents.filter(function (a) { return (a.parent || null) === pid && !seen[a.id]; });
+    kids.forEach(function (a, i) {
+      seen[a.id] = 1; var last = i === kids.length - 1;
+      rows.push({ a: a, d: trail.length, pre: trail.map(function (t) { return t ? '   ' : '│  '; }).join('') + (trail.length || pid !== null ? (last ? '└─ ' : '├─ ') : '') });
+      walk(a.id, pid === null ? trail : trail.concat([last]));
+    });
+  })(null, []);
+  D.agents.forEach(function (a) { if (!seen[a.id]) rows.push({ a: a, d: 0, pre: '' }); });
+  return rows;
+}
+function renderHerd() {
+  var box = $('#herd');
+  keep(box, function () {
+    box.replaceChildren.apply(box, herdRows().map(function (r) {
+      var g = glyphOf(r.a.state), cur = r.a.id === S.agent;
+      return h('button', { class: 'tm-agent', type: 'button', 'data-k': r.a.id, 'aria-current': cur ? 'true' : null, onclick: function () { focusAgent(r.a.id); } },
+        h('span', { class: 'tm-c-muted', 'aria-hidden': 'true' }, r.pre), h('span', { class: 'tm-s-' + g[2], 'aria-hidden': 'true' }, g[0]), h('span', { class: 'tm-name' }, r.a.name),
+        S.unread[r.a.id] ? h('span', { class: 'tm-new', title: 'neue Ausgabe' }, '◆') : null,
+        h('span', { class: 'tm-state tm-s-' + g[2] }, g[1]));
+    }));
+    if (!D.agents.length) box.replaceChildren(h('div', { class: 'tm-empty tm-miss' }, MISSING));
+  });
+  renderMeta();
+}
+function renderKnow() {
+  var box = $('#know');
+  box.replaceChildren.apply(box, D.knowledge.map(function (k) {
+    var g = glyphOf(k.state);
+    return h('button', { class: 'tm-krow', type: 'button', 'data-k': k.id, onclick: function () { run('#' + str(k.name)); } },
+      h('b', null, str(k.name)), h('span', null, k.detail ? str(k.detail) : MISSING), h('span', { class: 'tm-s-' + g[2] }, g[0] + ' ' + g[1]));
+  }));
+  if (!D.knowledge.length) box.replaceChildren(h('div', { class: 'tm-empty tm-miss' }, MISSING));
+}
+function renderServices() {
+  var rows = D.stack.map(function (s) { return { id: s.id, name: s.name, detail: s.detail, state: s.state, code: '' }; }).concat(D.knowledge), t = $('#svc');
+  t.replaceChildren(h('thead', null, h('tr', null, ['Dienst', 'Status', 'Detail', 'Kürzel'].map(function (c) { return h('th', { scope: 'col' }, c); }))),
+    h('tbody', null, rows.map(function (r) {
+      var g = glyphOf(r.state);
+      return h('tr', { 'data-k': str(r.id) }, h('td', null, str(r.name)), h('td', { class: 'tm-s-' + g[2] }, g[0] + ' ' + g[1]), h('td', r.detail ? null : { class: 'tm-miss' }, r.detail ? str(r.detail) : MISSING), h('td', null, str(r.code || '')));
+    })));
+  $('#sv-tag').textContent = rows.length + ' DIENSTE';
+}
+function renderStatus() {
+  var el = $('#status');
+  var pills = D.knowledge.map(function (k) {
+    var g = glyphOf(k.state), code = str(k.code || k.name);
+    return h('button', { class: 'tm-pill', type: 'button', 'aria-label': str(k.name) + ': ' + g[1], onclick: function () { setView('services'); flash(k.id); } },
+      code, h('span', { class: 'tm-s-' + g[2] }, g[0]), code.length < 2 ? ' ' + str(k.name) : '');
+  });
+  el.replaceChildren.apply(el, pills.concat([
+    h('button', { class: 'tm-pill', type: 'button', onclick: openPal }, 'Palette Ctrl+P'),
+    h('span', { class: 'tm-push' }, D.stack.map(function (s) { return str(s.name).charAt(0) + str(s.name).slice(1).toLowerCase(); }).concat(['Subterminal']).join(' → ')),
+    h('span', { class: 'tm-ver' }, 'Version: ' + str(D.meta.version || MISSING))]));
+}
+function flash(id) {
+  var r = $('#svc tr[data-k="' + str(id).replace(/"/g, '') + '"]'); if (!r) return;
+  r.classList.add('is-flash'); setTimeout(function () { r.classList.remove('is-flash'); }, 1600);
+}
+
+// ── Graph ───────────────────────────────────────────────────────────
+function drawGraph(svg, interactive) {
+  var N = D.graph.nodes; svg.replaceChildren(); if (!N.length) return;
+  // Echte Pixelmaße als viewBox: Schrift bleibt 10 px, egal wie groß die Fläche ist.
+  var W = svg.clientWidth || 400, H = svg.clientHeight || 240, cx = W / 2, cy = H / 2;
+  svg.dataset.w = W; svg.dataset.h = H;
+  var center = N.filter(function (n) { return n.id === D.graph.center; })[0] || N[N.length - 1];
+  var rest = N.filter(function (n) { return n !== center; }), pos = {};
+  var rx = Math.max(70, W / 2 - 80), ry = Math.max(46, H / 2 - 36);
+  pos[center.id] = [cx, cy];
+  rest.forEach(function (n, i) { var a = -Math.PI / 2 + Math.PI / rest.length + i * 2 * Math.PI / rest.length; pos[n.id] = [cx + rx * Math.cos(a), cy + ry * Math.sin(a)]; });
+  svg.setAttribute('viewBox', '0 0 ' + W + ' ' + H);
+  var edges = (Array.isArray(D.graph.edges) ? D.graph.edges : rest.map(function (n) { return [n.id, center.id]; }));
+  edges.forEach(function (e) { var a = pos[e[0]], b = pos[e[1]]; if (a && b) svg.append(sv('line', { class: 'tm-gedge', x1: a[0], y1: a[1], x2: b[0], y2: b[1] })); });
+  N.forEach(function (n) {
+    var p = pos[n.id], label = str(n.label || n.id), w = label.length * 6.2 + 18;
+    var g = sv('g', { class: 'tm-gnode', 'data-id': n.id, transform: 'translate(' + p[0] + ' ' + p[1] + ')' },
+      sv('rect', { x: -w / 2, y: -11, width: w, height: 22, rx: 11 }), sv('text', null, label));
+    if (interactive) {
+      g.setAttribute('tabindex', '0'); g.setAttribute('role', 'button'); g.setAttribute('aria-label', label + ' abfragen');
+      g.addEventListener('click', function () { run('#' + label); });
+      g.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); run('#' + label); } });
+    }
+    svg.append(g);
+  });
+}
+function drawGraphs() { drawGraph($('#graph-bg'), false); drawGraph($('#graph'), true); $('#gr-tag').textContent = D.graph.nodes.length + ' KNOTEN'; }
+// Neu zeichnen, wenn sich die Fläche ändert (Fenstergröße, Ansichtswechsel). Zeichnen ändert die Größe nicht → keine Schleife.
+function watchGraphs() {
+  if (typeof ResizeObserver !== 'function') return;
+  var ro = new ResizeObserver(function (list) {
+    list.forEach(function (en) {
+      var s = en.target, w = Math.round(en.contentRect.width), hh = Math.round(en.contentRect.height);
+      if (w && hh && (+s.dataset.w !== w || +s.dataset.h !== hh)) requestAnimationFrame(function () { drawGraph(s, s.id === 'graph'); });
+    });
+  });
+  ro.observe($('#graph-bg')); ro.observe($('#graph'));
+}
+function markHits(ids) {
+  document.querySelectorAll('.tm-gnode').forEach(function (g) { g.classList.toggle('is-hit', ids.indexOf(g.getAttribute('data-id')) >= 0); });
+  clearTimeout(markHits.t); markHits.t = setTimeout(function () { document.querySelectorAll('.tm-gnode.is-hit').forEach(function (g) { g.classList.remove('is-hit'); }); }, 4000);
+}
+function norm(s) { return str(s).toLowerCase().replace(/[^a-z0-9]/g, ''); }
+
+// ── Steuerung ───────────────────────────────────────────────────────
+function setView(v) {
+  if (!SHOW[v]) return; S.view = v;
+  var ws = $('#workspace'); ws.setAttribute('data-view', v); ws.setAttribute('aria-labelledby', 'tab-' + v);
+  ['files', 'preview', 'term', 'input', 'side', 'graph', 'services'].forEach(function (p) { $('#p-' + p).hidden = SHOW[v].indexOf(p) < 0; });
+  VIEWS.forEach(function (x) { var t = $('#tab-' + x[0]); t.setAttribute('aria-selected', String(x[0] === v)); t.tabIndex = x[0] === v ? 0 : -1; });
+  if (v === 'files') renderPreview();
+}
+function setTheme(t) {
+  if (!THEMES.some(function (x) { return x[0] === t; })) return false;
+  document.documentElement.setAttribute('data-theme', t); store('dkz-theme', t);
+  if (FONTS[t] && !document.getElementById('font-' + t)) document.head.append(h('link', { id: 'font-' + t, rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?' + FONTS[t] + '&display=swap' }));
+  renderThemes(); return true;
+}
+function selectFile(path, quiet) {
+  var f = findFile(path); if (!f) return false;
+  S.file = f.path; renderTree(); renderPreview(); renderSuggest();
+  if (!quiet || f.type === 'file') say([['m', '[superfile]'], ['', ' selection.changed → ' + f.path]]);
+  return true;
+}
+function focusAgent(id) {
+  var a = findAgent(id); if (!a) return false;
+  S.agent = a.id; delete S.unread[a.id];
+  if (!logOf(a.id).length) say([['m', '[herdr]'], ['', ' subterminal attached · ' + a.name + ' · ' + glyphOf(a.state)[1]]], a.id);
+  renderHerd(); renderCrumb(); renderLog(); renderSuggest(); return true;
+}
+function routeTask(a, task) {
+  a.state = 'running'; renderHerd();
+  say([['a', '[herdr]'], ['', ' task angenommen: ' + task.slice(0, 200)]], a.id);
+  say([['a', '[herdr]'], ['', ' routed task to @' + a.id + ' · subterminal attached']]);
+  say([['m', '[hinweis] Simulation. Echt senden: '], ['i', 'odysseus chat a2a ' + shq(a.id) + ' ' + shq(task.slice(0, 200))]]);
+  setTimeout(function () { a.state = 'done'; renderHerd(); say([['ok', '[herdr]'], ['', ' @' + a.id + ': Simulation beendet']], a.id); }, 1600);
+}
+function search(q) {
+  var toks = q.toLowerCase().split(/\s+/).filter(Boolean), hay = [];
+  D.index.forEach(function (i) { hay.push({ type: str(i.type).toUpperCase(), text: str(i.text), source: str(i.source) }); });
+  D.agents.forEach(function (a) { hay.push({ type: 'AGENT', text: '@' + a.id + ' ' + a.name, source: 'Herdr' }); });
+  D.knowledge.forEach(function (k) { hay.push({ type: 'KNOWLEDGE', text: str(k.name) + ' ' + str(k.detail), source: str(k.name) }); });
+  leaves().forEach(function (f) { hay.push({ type: 'FILE', text: f.path, source: 'Superfile' }); });
+  return toks.length ? hay.filter(function (x) { var all = (x.type + ' ' + x.text + ' ' + x.source).toLowerCase(); return toks.every(function (t) { return all.indexOf(t) >= 0; }); }) : [];
+}
+
+var CMD = {
+  help: function () {
+    say([['m', 'Befehle: help · herd · knowledge · files · services · graph · status · theme <name> · clear']]);
+    say([['m', 'Präfixe: @agent <task> · #<suche> · /<datei> · ?<navi> · Ctrl+P Palette · Alt+1..4 Ansicht · Tab ergänzt']]);
+  },
+  herd: function () { herdRows().forEach(function (r) { var g = glyphOf(r.a.state); say([['m', r.pre], [g[2], g[0] + ' '], ['', r.a.name + '  '], [g[2], g[1]]]); }); setView('herd'); },
+  knowledge: function () { D.knowledge.forEach(function (k) { var g = glyphOf(k.state); say([[g[2], g[0] + ' '], ['', str(k.name) + '  '], ['m', k.detail ? str(k.detail) : MISSING]]); }); setView('knowledge'); },
+  files: function () { say([['i', '[superfile] '], ['', S.file || MISSING]]); setView('files'); },
+  services: function () { D.stack.concat(D.knowledge).forEach(function (s) { var g = glyphOf(s.state); say([[g[2], g[0] + ' '], ['', str(s.name) + '  '], ['m', g[1]]]); }); setView('services'); },
+  graph: function () { setView('knowledge'); },
+  status: function () {
+    say([['m', 'Modus: '], ['', D.meta.mode === 'live' ? 'LIVE (Export ' + str(D.meta.generated || MISSING) + ')' : 'DEMO-DATEN']]);
+    say([['m', 'Agenten: '], ['', D.agents.length + ' (' + activeCount() + ' aktiv)  ·  Dateien: ' + D.files.length + '  ·  Dienste: ' + (D.stack.length + D.knowledge.length)]]);
+  },
+  theme: function (arg) {
+    if (!arg) { say([['m', 'Themes: ' + THEMES.map(function (t) { return t[0]; }).join(' · ')]]); return; }
+    if (!setTheme(arg.trim())) say([['e', '[theme] unbekannt: ' + arg.slice(0, 40)], ['m', ' — verfügbar: ' + THEMES.map(function (t) { return t[0]; }).join(', ')]]);
+    else say([['m', '[theme]'], ['', ' ' + arg.trim()]]);
+  },
+  clear: function () { S.logs[S.agent || '_'] = []; renderLog(); }
+};
+function hasCmd(w) { return Object.prototype.hasOwnProperty.call(CMD, w); }
+
+function run(raw) {
+  var t = str(raw).trim(); if (!t) return;
+  S.hist.push(t); S.hi = S.hist.length;
+  var first = t.charAt(0);
+  say([['i', '$ ' + t]]);
+  var w = t.split(/\s+/)[0], arg = t.slice(w.length).trim();
+  if (first === '@') {
+    var m = /^@(\S+)\s*([\s\S]*)$/.exec(t), a = m && findAgent(m[1]);
+    if (!a) { say([['e', '[herdr] unbekannter Agent ' + (m ? '@' + m[1].slice(0, 40) : '')], ['m', ' — verfügbar: ' + D.agents.map(function (x) { return '@' + x.id; }).join(' ')]]); return; }
+    if (m[2]) routeTask(a, m[2]); else { focusAgent(a.id); setView('herd'); }
+  } else if (first === '#') {
+    var q = t.slice(1).trim(), hits = search(q);
+    say([['a', '[nouz] '], ['', hits.length + ' Treffer für „' + q.slice(0, 60) + '"']]);
+    hits.slice(0, 8).forEach(function (x) { say([['i', '  ' + x.type.padEnd(10)], ['', x.text], ['m', '  · ' + x.source]]); });
+    if (hits.length > 8) say([['m', '  … ' + (hits.length - 8) + ' weitere']]);
+    var ids = D.graph.nodes.filter(function (n) { return hits.some(function (x) { return norm(x.source) === norm(n.label) || norm(x.source) === norm(n.id); }) || norm(q).indexOf(norm(n.label)) >= 0 && norm(n.label).length > 2; }).map(function (n) { return n.id; });
+    markHits(ids);
+  } else if (first === '/') {
+    var f = findFile(t.slice(1).trim());
+    if (f) { selectFile(f.path); setView('files'); } else say([['e', '[superfile] nichts gefunden: ' + t.slice(1, 60)]]);
+  } else if (first === '?') {
+    var nq = t.slice(1).trim().toLowerCase(), cmds = D.index.filter(function (i) { return /^(COMMAND|HISTORY)$/i.test(str(i.type)) && str(i.text).toLowerCase().indexOf(nq) >= 0; });
+    say([['i', '[navi] '], ['', cmds.length + ' Vorlagen']]);
+    cmds.slice(0, 6).forEach(function (c) { say([['', '  ' + str(c.text)], ['m', '  · ' + str(c.source)]]); });
+    if (cmds.length === 1) { $('#cmd').value = str(cmds[0].text); say([['m', '[navi] Vorlage in den Prompt eingefügt']]); return; }
+  } else if (hasCmd(w)) { CMD[w](arg); }
+  else say([['m', '[atuin] command stored · [router] shell intent · Ausführung hier nur simuliert (kein Shell-Zugriff)']]);
+  $('#cmd').value = '';
+}
+
+// ── Palette ─────────────────────────────────────────────────────────
+function fuzzy(q, text) {
+  q = q.toLowerCase(); var s = text.toLowerCase(), i = 0, score = 0, last = -2, idx = [], j;
+  for (j = 0; j < s.length && i < q.length; j++) if (s[j] === q[i]) { idx.push(j); score += (j === last + 1 ? 3 : 1) + (j === 0 || /[\s\/_.:-]/.test(s[j - 1]) ? 2 : 0); last = j; i++; }
+  return i === q.length ? { score: score - (s.length - q.length) * 0.01, idx: idx } : null;
+}
+function hl(text, idx) {
+  var set = {}, out = [], buf = '', on = false, i;
+  idx.forEach(function (k) { set[k] = 1; });
+  var flush = function () { if (buf) out.push(on ? h('mark', null, buf) : buf); buf = ''; };
+  for (i = 0; i < text.length; i++) { var m = !!set[i]; if (m !== on) { flush(); on = m; } buf += text[i]; }
+  flush(); return out;
+}
+function palItems() {
+  var out = D.index.map(function (i) { return { type: str(i.type).toUpperCase(), text: str(i.text), source: str(i.source), action: str(i.action) }; });
+  VIEWS.forEach(function (v) { out.push({ type: 'VIEW', text: v[1], source: 'Zellij', action: 'view:' + v[0] }); });
+  THEMES.forEach(function (t) { out.push({ type: 'THEME', text: t[1], source: 'DkZ', action: 'theme:' + t[0] }); });
+  D.agents.forEach(function (a) { if (!out.some(function (o) { return o.action === 'agent:' + a.id; })) out.push({ type: 'AGENT', text: '@' + a.id, source: 'Herdr', action: 'agent:' + a.id }); });
+  leaves().forEach(function (f) { if (!out.some(function (o) { return o.type === 'FILE' && o.text.slice(-f.name.length) === f.name; })) out.push({ type: 'FILE', text: f.path, source: 'Superfile', action: 'file:' + f.path }); });
+  Object.keys(CMD).forEach(function (c) { out.push({ type: 'COMMAND', text: c, source: 'Shell', action: 'run:' + c }); });
+  return out;
+}
+function renderPal() {
+  var q = $('#pal-in').value.trim(), res;
+  if (!q) res = S.palItems.slice(0, 14).map(function (it) { return { it: it, idx: [] }; });
+  else res = S.palItems.map(function (it) {
+    var m = fuzzy(q, it.text), alt = !m && fuzzy(q, it.type + ' ' + it.source);
+    return m ? { it: it, idx: m.idx, sc: m.score + 10 } : alt ? { it: it, idx: [], sc: alt.score } : null;
+  }).filter(Boolean).sort(function (a, b) { return b.sc - a.sc; }).slice(0, 40);
+  S.palShown = res; S.palSel = Math.min(S.palSel, Math.max(0, res.length - 1));
+  var ul = $('#pal-list');
+  ul.replaceChildren.apply(ul, res.length ? res.map(function (r, n) {
+    return h('li', { class: 'tm-res', role: 'option', id: 'pal-o-' + n, 'aria-selected': String(n === S.palSel), onmousemove: function () { if (S.palSel !== n) { S.palSel = n; syncPal(); } }, onclick: function () { palRun(n); } },
+      h('span', { class: 'tm-type' }, r.it.type), h('span', null, hl(r.it.text, r.idx)), h('span', { class: 'tm-src' }, r.it.source));
+  }) : [h('li', { class: 'tm-empty' }, 'Keine Treffer.')]);
+  syncPal();
+}
+function syncPal() {
+  var inp = $('#pal-in'); document.querySelectorAll('#pal-list .tm-res').forEach(function (li, n) { li.setAttribute('aria-selected', String(n === S.palSel)); });
+  var cur = $('#pal-o-' + S.palSel); if (cur) { inp.setAttribute('aria-activedescendant', cur.id); cur.scrollIntoView({ block: 'nearest' }); } else inp.removeAttribute('aria-activedescendant');
+}
+function openPal() {
+  S.prev = document.activeElement; S.palItems = palItems(); S.palSel = 0;
+  $('.tm-app').inert = true; $('#pal').classList.add('is-open');
+  var i = $('#pal-in'); i.value = ''; renderPal(); i.focus();
+}
+function closePal() {
+  if (!$('#pal').classList.contains('is-open')) return;
+  $('#pal').classList.remove('is-open'); $('.tm-app').inert = false;
+  (S.prev && document.contains(S.prev) ? S.prev : $('#cmd')).focus();
+}
+function palRun(n) {
+  var r = S.palShown[n]; if (!r) return; var act = r.it.action, k = act.indexOf(':'), kind = act.slice(0, k), arg = act.slice(k + 1);
+  closePal();
+  if (kind === 'view') setView(arg);
+  else if (kind === 'theme') setTheme(arg);
+  else if (kind === 'agent') { focusAgent(arg); setView('herd'); }
+  else if (kind === 'file') { selectFile(arg); setView('files'); }
+  else if (kind === 'query') run('#' + arg);
+  else if (kind === 'run') run(arg);
+  else if (kind === 'cmd') { $('#cmd').value = arg; $('#cmd').focus(); }
+  else $('#cmd').focus();
+}
+
+// ── Ergänzen mit Tab ────────────────────────────────────────────────
+function common(a) { var p = a[0]; a.forEach(function (s) { while (s.indexOf(p) !== 0) p = p.slice(0, -1); }); return p; }
+function complete() {
+  var c = $('#cmd'), v = c.value, cands = [];
+  if (v.charAt(0) === '@' && !/\s/.test(v)) cands = D.agents.map(function (a) { return '@' + a.id; });
+  else if (v.charAt(0) === '/') cands = leaves().map(function (f) { return '/' + f.name; });
+  else if (/^theme /.test(v)) cands = THEMES.map(function (t) { return 'theme ' + t[0]; });
+  else if (v && !/\s/.test(v) && !/^[#?]/.test(v)) cands = Object.keys(CMD);
+  cands = cands.filter(function (x) { return x.toLowerCase().indexOf(v.toLowerCase()) === 0; });
+  if (!cands.length) { renderSuggest(); return; }
+  var cp = common(cands); if (cp.length > v.length) c.value = cp;
+  if (cands.length === 1) c.value = cands[0] + (cands[0].charAt(0) === '@' ? ' ' : '');
+  renderSuggest(cands.length > 1 ? cands.join('   ') : null);
+}
+
+// ── Start ───────────────────────────────────────────────────────────
+function start() {
+  D = readData();
+  var tabs = $('#tabs');
+  tabs.replaceChildren.apply(tabs, VIEWS.map(function (v) {
+    return h('button', { class: 'tm-tab', role: 'tab', id: 'tab-' + v[0], type: 'button', 'aria-controls': 'workspace', onclick: function () { setView(v[0]); } },
+      v[1], v[0] === 'herd' ? [' ', h('span', { class: 'tm-count', id: 'count' }, '')] : null);
+  }));
+  tabs.addEventListener('keydown', function (e) {
+    var i = VIEWS.map(function (v) { return v[0]; }).indexOf(S.view), n = e.key === 'ArrowRight' ? i + 1 : e.key === 'ArrowLeft' ? i - 1 : e.key === 'Home' ? 0 : e.key === 'End' ? VIEWS.length - 1 : null;
+    if (n === null) return; e.preventDefault(); n = (n + VIEWS.length) % VIEWS.length; setView(VIEWS[n][0]); $('#tab-' + VIEWS[n][0]).focus();
+  });
+  D.files.forEach(function (f) { if (f.type === 'dir') S.open[f.path] = D.files.length <= 60 || f.depth < 1; });
+  var f0 = findFile(D.meta.file) || leaves()[0] || D.files[0]; S.file = f0 ? f0.path : null;
+  S.agent = (findAgent(D.meta.focus) || D.agents[0] || {}).id || null;
+  if (S.agent) { logOf(S.agent).push.apply(logOf(S.agent), D.boot.filter(Array.isArray)); }
+  renderTree(); renderHerd(); renderKnow(); renderServices(); renderStatus(); renderCrumb(); renderSuggest(); renderLog(); drawGraphs();
+  var t = recall('dkz-theme'); setTheme(THEMES.some(function (x) { return x[0] === t; }) ? t : 'master');
+  setView('herd'); watchGraphs();
+  if (D.meta.mode === 'live') say([['m', '[export]'], ['', ' Live-Daten geladen · ' + str(D.meta.generated || MISSING)]]);
+
+  var cmd = $('#cmd');
+  cmd.addEventListener('keydown', function (e) {
+    if (e.key === 'Enter') { run(cmd.value); }
+    else if (e.key === 'ArrowUp' && S.hist.length) { e.preventDefault(); S.hi = Math.max(0, S.hi - 1); cmd.value = S.hist[S.hi]; }
+    else if (e.key === 'ArrowDown' && S.hist.length) { e.preventDefault(); S.hi = Math.min(S.hist.length, S.hi + 1); cmd.value = S.hist[S.hi] || ''; }
+    else if (e.key === 'Tab' && !e.shiftKey && cmd.value) { e.preventDefault(); complete(); }
+    else if (e.key === 'Escape') { cmd.value = ''; renderSuggest(); }
+    else if (e.key === 'l' && e.ctrlKey) { e.preventDefault(); CMD.clear(); }
+  });
+  cmd.addEventListener('input', function () { renderSuggest(); });
+  $('#pal-in').addEventListener('input', function () { S.palSel = 0; renderPal(); });
+  $('#pal-in').addEventListener('keydown', function (e) {
+    var n = S.palShown.length;
+    if (e.key === 'ArrowDown') { e.preventDefault(); S.palSel = n ? (S.palSel + 1) % n : 0; syncPal(); }
+    else if (e.key === 'ArrowUp') { e.preventDefault(); S.palSel = n ? (S.palSel - 1 + n) % n : 0; syncPal(); }
+    else if (e.key === 'Enter') { e.preventDefault(); palRun(S.palSel); }
+    else if (e.key === 'Tab') { e.preventDefault(); }
+  });
+  $('#pal').addEventListener('click', function (e) { if (e.target === $('#pal')) closePal(); });
+  document.addEventListener('keydown', function (e) {
+    if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'p') { e.preventDefault(); if ($('#pal').classList.contains('is-open')) closePal(); else openPal(); }
+    else if (e.key === 'Escape') closePal();
+    else if (e.altKey && /^[1-4]$/.test(e.key)) { e.preventDefault(); setView(VIEWS[+e.key - 1][0]); }
+  });
+  if (!matchMedia('(pointer:coarse)').matches) cmd.focus();
+}
+
+// Live-Daten nur auf ausdrücklichen Wunsch (index.html?live), damit kein 404 in der Konsole steht.
+if (/[?&]live\b/.test(location.search)) {
+  var sc = h('script', { src: 'data.local.js' });
+  sc.addEventListener('load', start);
+  sc.addEventListener('error', function () { start(); say([['e', '[export]'], ['', ' data.local.js fehlt — erst „odysseus nouz export" ausführen. Es bleiben die Demo-Daten.']]); });
+  document.head.append(sc);
+} else start();
+})();
+</script>
+</body>
+</html>
